@@ -23,45 +23,51 @@ export async function PATCH(
 
     const values = await request.json();
 
-    const chapter = await prisma.chapter.findFirst({
-      where: {
-        id: params.chapterId,
+    console.log({ values });
+
+    const chapter = await prisma.chapter.update({
+      where: { id: params.chapterId, courseId: params.courseId },
+      data: {
+        ...values,
       },
     });
 
     if (!chapter)
       throw new NextResponse("Chapter doesn't exist", { status: 401 });
 
-    const muxVideo = await prisma.muxVideo.findFirst({
-      where: {
-        chapterId: params.chapterId,
-      },
-    });
-
-    if (muxVideo) {
-      await Video.Assets.del(muxVideo.assedId);
-
-      await prisma.muxVideo.delete({
+    if (values.videoUrl) {
+      // Mux Video
+      const muxVideo = await prisma.muxVideo.findFirst({
         where: {
-          assedId: muxVideo.assedId,
           chapterId: params.chapterId,
         },
       });
+
+      if (muxVideo) {
+        await Video.Assets.del(muxVideo.assedId);
+
+        await prisma.muxVideo.delete({
+          where: {
+            assedId: muxVideo.assedId,
+            chapterId: params.chapterId,
+          },
+        });
+      }
+
+      const asset = await Video.Assets.create({
+        input: values.videoUrl,
+        playback_policy: "public",
+      });
+
+      await prisma.muxVideo.create({
+        data: {
+          chapterId: params.chapterId,
+          name: chapter?.title,
+          assedId: asset.id,
+          playbackId: asset.playback_ids?.[0]?.id as string,
+        },
+      });
     }
-
-    const asset = await Video.Assets.create({
-      input: values.videoUrl,
-      playback_policy: "public",
-    });
-
-    await prisma.muxVideo.create({
-      data: {
-        chapterId: params.chapterId,
-        name: chapter?.title,
-        assedId: asset.id,
-        playbackId: asset.playback_ids?.[0]?.id as string,
-      },
-    });
 
     return NextResponse.json({ status: "success" });
   } catch (err) {
