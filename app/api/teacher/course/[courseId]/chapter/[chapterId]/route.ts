@@ -23,14 +23,23 @@ export async function PATCH(
 
     const values = await request.json();
 
-    console.log({ values });
-
-    const chapter = await prisma.chapter.update({
-      where: { id: params.chapterId, courseId: params.courseId },
-      data: {
-        ...values,
+    const chapter = await prisma.chapter.findFirst({
+      where: {
+        id: params.chapterId,
+        courseId: params.courseId,
       },
     });
+
+    console.log({ values });
+
+    if (!values.videoUrl) {
+      const chapter = await prisma.chapter.update({
+        where: { id: params.chapterId, courseId: params.courseId },
+        data: {
+          ...values,
+        },
+      });
+    }
 
     if (!chapter)
       throw new NextResponse("Chapter doesn't exist", { status: 401 });
