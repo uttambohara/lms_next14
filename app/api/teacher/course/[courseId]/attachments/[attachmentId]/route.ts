@@ -22,8 +22,6 @@ export async function DELETE(
       },
     });
 
-    console.log({ attachment });
-
     return NextResponse.json({ status: "success", data: attachment });
   } catch (err) {
     console.log("[COURSE_ATTACHMENT_DELETE]", err);

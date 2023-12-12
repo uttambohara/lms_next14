@@ -1,10 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
-import { BadgeDollarSign, Layers2, LayoutDashboard } from "lucide-react";
+import {
+  BadgeDollarSign,
+  CheckCheckIcon,
+  Layers2,
+  LayoutDashboard,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 
 import CourseAttachments from "../_components/course/course-attachments";
 import CourseCategory from "../_components/course/course-category";
+import CourseChapters from "../_components/course/course-chapters";
 import CourseDescription from "../_components/course/course-description";
 import CourseImage from "../_components/course/course-image";
 import CoursePrice from "../_components/course/course-price";
@@ -27,14 +33,23 @@ export default async function Course({
       id: params.courseId,
     },
     include: {
-      chapters: true,
+      chapters: {
+        orderBy: [
+          {
+            position: "asc",
+          },
+          {
+            title: "asc",
+          },
+        ],
+      },
       attachments: true,
     },
   });
 
-  const category = await prisma?.category.findMany();
-
   if (!course) redirect("/");
+
+  const category = await prisma?.category.findMany();
 
   const allFields = [
     course?.title,
@@ -55,7 +70,7 @@ export default async function Course({
         {/* Course heading */}
         <div>
           <h2 className="text-3xl mb-1">Course setup</h2>
-          <p className="text-muted-foreground text-xl">
+          <p className="text-muted-foreground text-[1rem]">
             Complete all fields {`${completedFields}/ ${totalFields}`}
           </p>
         </div>
@@ -89,7 +104,16 @@ export default async function Course({
 
           {/* Right Group / normal*/}
           <div>
-            <div className="space-y-10">
+            <div className="md:space-y-10 space-y-6">
+              <div>
+                <HeadingBadge icon={CheckCheckIcon}>
+                  Course chapters
+                </HeadingBadge>
+                <div className="course-card gradient">
+                  <CourseChapters course={course} />
+                </div>
+              </div>
+
               <div>
                 <HeadingBadge icon={BadgeDollarSign}>
                   Sell your course
