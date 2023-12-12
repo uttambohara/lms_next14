@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,7 +10,7 @@ export default function HeaderButtons() {
 
   const isTeacherMode = pathname.includes("/teacher");
   return (
-    <div className="ml-auto">
+    <div className="ml-auto flex items-center gap-2">
       {isTeacherMode ? (
         <Link href="/">
           <Button variant="ghost">Guest mode</Button>
@@ -19,6 +20,10 @@ export default function HeaderButtons() {
           <Button>Teacher Mode</Button>
         </Link>
       )}
+
+      <div>
+        <UserButton afterSignOutUrl="/" />
+      </div>
     </div>
   );
 }
