@@ -77,7 +77,7 @@ export function CourseTitleForm({ course, setIsEditing }: CourseTitleForm) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="title"

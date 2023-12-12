@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Combobox } from "@/components/combobox";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,8 +12,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Attachment, Chapter, Course } from "@prisma/client";
+import { Attachment, Category, Chapter, Course } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -20,24 +20,27 @@ import { toast } from "sonner";
 
 // Form schema
 const formSchema = z.object({
-  description: z.string().min(4, {
-    message: "Course title must be at least 4 characters.",
-  }),
+  categoryId: z.string(),
 });
 
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
-type CourseDescriptionFormProps = {
-  course: Course & { chapters: Chapter[]; attachments: Attachment[] };
+type CourseCategoryFormProps = {
+  course: Course & {
+    chapters: Chapter[];
+    attachments: Attachment[];
+  };
+  category: Category[];
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
 // Create form
-export function CourseDescriptionForm({
+export function CourseCategoryForm({
   course,
+  category,
   setIsEditing,
-}: CourseDescriptionFormProps) {
+}: CourseCategoryFormProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
@@ -45,7 +48,7 @@ export function CourseDescriptionForm({
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: course.description || "",
+      categoryId: course.categoryId || "",
     },
   });
 
@@ -60,7 +63,7 @@ export function CourseDescriptionForm({
         `/api/teacher/course/${course.id}`,
         values
       );
-      toast.success("Course description updated...");
+      toast.success("Course category updated...");
 
       // refresh and redirect
       router.refresh();
@@ -83,17 +86,19 @@ export function CourseDescriptionForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="description"
+          name="categoryId"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  placeholder="Add your description..."
+                <Combobox
+                  options={category.map((item) => ({
+                    value: item.id,
+                    label: item.name,
+                  }))}
                   {...field}
-                  disabled={isSubmitting}
                 />
               </FormControl>
-              <FormDescription>Change your course description.</FormDescription>
+              <FormDescription>Change your course category.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

@@ -3,19 +3,19 @@
 import { Attachment, Chapter, Course } from "@prisma/client";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import { CourseDescriptionForm } from "../form/course-description-form";
+import { CoursePriceForm } from "../form/course-price-form";
 
-type CourseDescriptionProps = {
+type CoursePriceProps = {
   course: Course & { chapters: Chapter[]; attachments: Attachment[] };
 };
 
-export default function CourseDescription({ course }: CourseDescriptionProps) {
+export default function CoursePrice({ course }: CoursePriceProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        <h4 className="text-[1rem]">Course description</h4>
+        <h4 className="text-[1rem]">Course price</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}
@@ -23,7 +23,7 @@ export default function CourseDescription({ course }: CourseDescriptionProps) {
           {!isEditing ? (
             <>
               <Pencil size={16} />
-              Edit Description
+              Edit Price
             </>
           ) : (
             <>Cancel</>
@@ -32,18 +32,18 @@ export default function CourseDescription({ course }: CourseDescriptionProps) {
       </div>
 
       <div>
-        {course.description && !isEditing && (
-          <p className="text-muted-foreground leading-6">
-            {course.description}
+        {course.price && !isEditing && (
+          <p className="text-muted-foreground leading-6">${course.price}</p>
+        )}
+
+        {!course.price && !isEditing && (
+          <p className="text-muted-foreground">
+            Please specify the price of the course ...
           </p>
         )}
 
-        {!course.description && !isEditing && (
-          <p className="text-muted-foreground">No Description</p>
-        )}
-
         {isEditing && (
-          <CourseDescriptionForm course={course} setIsEditing={setIsEditing} />
+          <CoursePriceForm course={course} setIsEditing={setIsEditing} />
         )}
       </div>
     </div>

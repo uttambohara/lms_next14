@@ -16,6 +16,7 @@ model Course {
   userId      String
   title       String  @unique
   description String? @db.Text
+  imageUrl    String? @db.Text
   price       Float?
   isPublished Boolean @default(false)
 

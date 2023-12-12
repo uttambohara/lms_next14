@@ -20,24 +20,22 @@ import { toast } from "sonner";
 
 // Form schema
 const formSchema = z.object({
-  description: z.string().min(4, {
-    message: "Course title must be at least 4 characters.",
-  }),
+  price: z.coerce.number(),
 });
 
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
-type CourseDescriptionFormProps = {
+type CoursePriceFormProps = {
   course: Course & { chapters: Chapter[]; attachments: Attachment[] };
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
 // Create form
-export function CourseDescriptionForm({
+export function CoursePriceForm({
   course,
   setIsEditing,
-}: CourseDescriptionFormProps) {
+}: CoursePriceFormProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
@@ -45,7 +43,7 @@ export function CourseDescriptionForm({
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: course.description || "",
+      price: course.price || 0,
     },
   });
 
@@ -83,17 +81,17 @@ export function CourseDescriptionForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="description"
+          name="price"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder="Add your description..."
+                  placeholder="Course price..."
                   {...field}
                   disabled={isSubmitting}
                 />
               </FormControl>
-              <FormDescription>Change your course description.</FormDescription>
+              <FormDescription>Change your course price.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

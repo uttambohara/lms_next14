@@ -15,7 +15,7 @@ export default function CourseTitle({ course }: CourseTitleProps) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        <h4 className="md:text-xl text-[1rem]">Course title</h4>
+        <h4 className="text-[1rem]">Course title</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}
