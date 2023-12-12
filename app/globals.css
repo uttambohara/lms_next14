@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply text-sm text-slate-600;
+  @apply text-[0.8rem] lg:text-sm text-slate-600;
 }
 
 .course-card {

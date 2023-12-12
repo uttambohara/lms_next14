@@ -5,7 +5,7 @@ import { LucideIcon } from "lucide-react";
 const backgroundVariant = cva("flex items-center justify-center rounded-full", {
   variants: {
     variant: {
-      default: "bg-purple-100",
+      default: "bg-gray-100",
       success: "bg-sky-100",
     },
     size: {
@@ -22,7 +22,7 @@ const backgroundVariant = cva("flex items-center justify-center rounded-full", {
 const iconVariant = cva("", {
   variants: {
     variant: {
-      default: "text-purple-700",
+      default: "text-purple-600",
       success: "text-sky-800",
     },
     size: {
