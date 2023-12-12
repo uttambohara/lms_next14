@@ -87,10 +87,11 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
             <CourseChapterForm course={course} setIsEditing={setIsEditing} />
           )}
         </div>
-
-        <p className="text-muted-foreground text-xs">
-          Drag and drop to reorder chapters
-        </p>
+        {course.chapters.length > 0 && (
+          <p className="text-muted-foreground text-xs">
+            Drag and drop to reorder chapters
+          </p>
+        )}
       </div>
     </div>
   );
