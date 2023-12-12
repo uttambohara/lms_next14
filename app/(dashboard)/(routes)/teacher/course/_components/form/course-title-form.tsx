@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -14,9 +12,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Attachment, Chapter, Course } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
 // Form schema
@@ -29,15 +28,21 @@ const formSchema = z.object({
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
+type CourseTitleForm = {
+  course: Course & { chapters: Chapter[]; attachments: Attachment[] };
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
+};
+
 // Create form
-export function CourseCreateForm() {
+export function CourseTitleForm({ course, setIsEditing }: CourseTitleForm) {
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
+
   // React hook form
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      title: course.title || "",
     },
   });
 
@@ -48,12 +53,15 @@ export function CourseCreateForm() {
     try {
       setIsUpdating(false);
       // api
-      const course = await axios.post("/api/teacher/course/create", values);
-      toast.success("Course created...");
+      const updatedCourse = await axios.patch(
+        `/api/teacher/course/${course.id}`,
+        values
+      );
+      toast.success("Course title updated...");
 
       // refresh and redirect
       router.refresh();
-      router.push(`/teacher/course/${course.data.data.id}`);
+      setIsEditing(false);
     } catch (err) {
       let error;
       if (err instanceof Error) {
@@ -76,15 +84,9 @@ export function CourseCreateForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  placeholder="E.g. Advanced Web Development"
-                  {...field}
-                  disabled={isSubmitting}
-                />
+                <Input {...field} disabled={isSubmitting} />
               </FormControl>
-              <FormDescription>
-                What will you teach in this course?
-              </FormDescription>
+              <FormDescription>Change your course title.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

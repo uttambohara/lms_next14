@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -14,14 +12,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Attachment, Chapter, Course } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
 // Form schema
 const formSchema = z.object({
-  title: z.string().min(4, {
+  description: z.string().min(4, {
     message: "Course title must be at least 4 characters.",
   }),
 });
@@ -29,15 +28,24 @@ const formSchema = z.object({
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
+type CourseDescriptionFormProps = {
+  course: Course & { chapters: Chapter[]; attachments: Attachment[] };
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
+};
+
 // Create form
-export function CourseCreateForm() {
+export function CourseDescriptionForm({
+  course,
+  setIsEditing,
+}: CourseDescriptionFormProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
+
   // React hook form
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      description: course.description || "",
     },
   });
 
@@ -48,12 +56,15 @@ export function CourseCreateForm() {
     try {
       setIsUpdating(false);
       // api
-      const course = await axios.post("/api/teacher/course/create", values);
-      toast.success("Course created...");
+      const updatedCourse = await axios.patch(
+        `/api/teacher/course/${course.id}`,
+        values
+      );
+      toast.success("Course description updated...");
 
       // refresh and redirect
       router.refresh();
-      router.push(`/teacher/course/${course.data.data.id}`);
+      setIsEditing(false);
     } catch (err) {
       let error;
       if (err instanceof Error) {
@@ -72,19 +83,17 @@ export function CourseCreateForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="title"
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder="E.g. Advanced Web Development"
+                  placeholder="Add your description..."
                   {...field}
                   disabled={isSubmitting}
                 />
               </FormControl>
-              <FormDescription>
-                What will you teach in this course?
-              </FormDescription>
+              <FormDescription>Change your course description.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

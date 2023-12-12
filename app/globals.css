@@ -6,6 +6,10 @@ body {
   @apply text-sm text-slate-600;
 }
 
+.course-card {
+  @apply bg-slate-100 rounded-md w-full p-3;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
