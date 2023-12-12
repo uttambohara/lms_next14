@@ -7,7 +7,7 @@ body {
 }
 
 .course-card {
-  @apply bg-slate-100 rounded-md w-full p-3;
+  @apply bg-gray-100 rounded-md w-full p-3;
 }
 
 @layer base {
