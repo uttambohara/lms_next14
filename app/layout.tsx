@@ -1,5 +1,7 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 // Fonts
@@ -20,8 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={nunitoSans.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={nunitoSans.className}>
+          <Toaster position="bottom-right" />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
