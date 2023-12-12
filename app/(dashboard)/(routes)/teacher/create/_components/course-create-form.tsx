@@ -14,6 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 // Form schema
 const formSchema = z.object({
@@ -27,6 +31,9 @@ type FormSchema = z.infer<typeof formSchema>;
 
 // Create form
 export function CourseCreateForm() {
+  const [isUpdating, setIsUpdating] = useState(false);
+  const router = useRouter();
+  // React hook form
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,9 +41,30 @@ export function CourseCreateForm() {
     },
   });
 
+  const { isSubmitting, isValid } = form.formState;
+
   // handler
-  function onSubmit(values: FormSchema) {
-    console.log(values);
+  async function onSubmit(values: FormSchema) {
+    try {
+      setIsUpdating(false);
+      // api
+      const course = await axios.post("/api/teacher/course/create", values);
+      toast.success("Course created...");
+
+      // refresh and redirect
+      router.refresh();
+      router.push(`/teacher/course/${course.data.data.id}`);
+    } catch (err) {
+      let error;
+      if (err instanceof Error) {
+        error = err.message;
+      } else {
+        error = "Something went wrong.";
+      }
+      toast.error(error);
+    } finally {
+      setIsUpdating(false);
+    }
   }
 
   return (
@@ -48,7 +76,11 @@ export function CourseCreateForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="E.g. Advanced Web Development" {...field} />
+                <Input
+                  placeholder="E.g. Advanced Web Development"
+                  {...field}
+                  disabled={isSubmitting}
+                />
               </FormControl>
               <FormDescription>
                 What will you teach in this course?
@@ -57,7 +89,9 @@ export function CourseCreateForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={!isValid}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

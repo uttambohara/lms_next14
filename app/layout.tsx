@@ -1,7 +1,8 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 
 // Fonts
 const nunitoSans = Nunito_Sans({
@@ -23,7 +24,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={nunitoSans.className}>{children}</body>
+        <body className={nunitoSans.className}>
+          <Toaster position="bottom-right" />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
