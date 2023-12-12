@@ -15,7 +15,7 @@ export default function CoursePrice({ course }: CoursePriceProps) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        <h4 className="text-[1rem]">Course price</h4>
+        <h4 className="">Course price</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}
@@ -33,13 +33,13 @@ export default function CoursePrice({ course }: CoursePriceProps) {
 
       <div>
         {course.price && !isEditing && (
-          <p className="text-muted-foreground leading-6">${course.price}</p>
+          <p className="text-muted-foreground leading-6">
+            ${course.price !== 0 ? course.price : "No price"}
+          </p>
         )}
 
         {!course.price && !isEditing && (
-          <p className="text-muted-foreground">
-            Please specify the price of the course ...
-          </p>
+          <p className="text-muted-foreground italic">No price</p>
         )}
 
         {isEditing && (

@@ -5,7 +5,7 @@ export default function CreateCourse() {
     <div className="max-w-[40rem] mx-auto space-y-3 container py-16">
       <div>
         <h1 className="text-3xl mb-1">Name your course</h1>
-        <p className="text-[1rem] leading-8">
+        <p className=" leading-8">
           Course Title Submission Hub: Enter Your Course Information Here
         </p>
       </div>

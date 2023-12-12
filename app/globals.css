@@ -3,11 +3,20 @@
 @tailwind utilities;
 
 body {
-  @apply text-[0.8rem] lg:text-sm text-slate-600;
+  @apply text-sm text-gray-600;
+  font-family: "Arial" !important;
+}
+
+h4 {
+  @apply font-bold;
 }
 
 .course-card {
   @apply bg-gray-100 rounded-md w-full p-3;
+}
+
+.ql-bubble .ql-editor {
+  padding: 0 !important;
 }
 
 @layer base {

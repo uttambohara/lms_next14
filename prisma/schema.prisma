@@ -57,13 +57,13 @@ model Attachment {
 }
 
 model Chapter {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
-  description String?  @db.Text
-  isFree      Boolean  @default(false)
+  description String?   @db.Text
+  isFree      Boolean   @default(false)
   position    Int
-  videoUrl    Boolean?
-  isPublished Boolean  @default(false)
+  videoUrl    MuxVideo?
+  isPublished Boolean   @default(false)
 
   course   Course? @relation(fields: [courseId], references: [id])
   courseId String?
@@ -72,4 +72,21 @@ model Chapter {
   updatedAt DateTime @updatedAt
 
   @@index([courseId])
+}
+
+model MuxVideo {
+  id String @id @default(uuid())
+
+  name String
+
+  assedId    String
+  playbackId String
+
+  chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId String?  @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId])
 }

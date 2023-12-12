@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Quill } from "@/components/react-quill";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -11,8 +12,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Attachment, Chapter, Course } from "@prisma/client";
+import { Chapter } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -20,21 +20,22 @@ import { toast } from "sonner";
 
 // Form schema
 const formSchema = z.object({
-  title: z.string().min(4, {
-    message: "Course title must be at least 4 characters.",
-  }),
+  description: z.string().min(4),
 });
 
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
-type CourseChapterForm = {
-  course: Course & { chapters: Chapter[]; attachments: Attachment[] };
+type ChapterDescriptionForm = {
+  chapter: Chapter;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
 // Create form
-export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
+export function ChapterDescriptionForm({
+  chapter,
+  setIsEditing,
+}: ChapterDescriptionForm) {
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
@@ -42,7 +43,7 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      description: chapter.description || "",
     },
   });
 
@@ -51,13 +52,13 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
   // handler
   async function onSubmit(values: FormSchema) {
     try {
-      setIsUpdating(false);
+      setIsUpdating(true);
       // api
-      const updatedCourse = await axios.post(
-        `/api/teacher/course/${course.id}/chapter`,
+      await axios.patch(
+        `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`,
         values
       );
-      toast.success("Course chapter added...");
+      toast.success("Chapter description updated...");
 
       // refresh and redirect
       router.refresh();
@@ -80,17 +81,15 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="title"
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  placeholder="Chapter name..."
-                  {...field}
-                  disabled={isSubmitting}
-                />
+                <Quill {...field} />
               </FormControl>
-              <FormDescription>Add your chapter title.</FormDescription>
+              <FormDescription>
+                Change your chapter description.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

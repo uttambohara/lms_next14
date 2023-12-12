@@ -16,7 +16,7 @@ export default function CourseImage({ course }: CourseImageProps) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between">
-        <h4 className="text-[1rem]">Course image</h4>
+        <h4 className="">Course image</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}

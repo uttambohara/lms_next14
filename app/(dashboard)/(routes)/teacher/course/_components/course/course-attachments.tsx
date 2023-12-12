@@ -41,7 +41,7 @@ export default function CourseAttachments({ course }: CourseAttachmentsProps) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        <h4 className="text-[1rem]">Course attachments</h4>
+        <h4 className="">Course attachments</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}
@@ -82,7 +82,7 @@ export default function CourseAttachments({ course }: CourseAttachmentsProps) {
         )}
 
         {course.attachments.length === 0 && !isEditing && (
-          <p className="text-muted-foreground">No Attachments</p>
+          <p className="text-muted-foreground italic">No attachments</p>
         )}
 
         {isEditing && (

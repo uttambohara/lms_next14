@@ -1,21 +1,21 @@
 "use client";
 
-import { Attachment, Chapter, Course } from "@prisma/client";
+import { Chapter } from "@prisma/client";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import { CourseTitleForm } from "../form/course-title-form";
+import { ChapterTitleForm } from "../form/chapter-title-form";
 
-type CourseTitleProps = {
-  course: Course & { chapters: Chapter[]; attachments: Attachment[] };
+type ChapterTitleProps = {
+  chapter: Chapter;
 };
 
-export default function CourseTitle({ course }: CourseTitleProps) {
+export default function ChapterTitle({ chapter }: ChapterTitleProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        <h4 className="">Course title</h4>
+        <h4 className="">Chapter title</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}
@@ -32,12 +32,12 @@ export default function CourseTitle({ course }: CourseTitleProps) {
       </div>
 
       <div>
-        {course.title && !isEditing && (
-          <p className="text-muted-foreground">{course.title}</p>
+        {chapter.title && !isEditing && (
+          <p className="text-muted-foreground">{chapter.title}</p>
         )}
 
         {isEditing && (
-          <CourseTitleForm course={course} setIsEditing={setIsEditing} />
+          <ChapterTitleForm chapter={chapter} setIsEditing={setIsEditing} />
         )}
       </div>
     </div>

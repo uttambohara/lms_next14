@@ -22,7 +22,7 @@ export default function CourseCategory({
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        <h4 className="text-[1rem]">Course category</h4>
+        <h4 className="">Course category</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}
@@ -46,7 +46,7 @@ export default function CourseCategory({
         )}
 
         {!course.categoryId && !isEditing && (
-          <p className="text-muted-foreground">No Category</p>
+          <p className="text-muted-foreground italic">No Category</p>
         )}
 
         {isEditing && (
