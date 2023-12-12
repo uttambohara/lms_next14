@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import {
-  BadgeDollarSign,
   CheckCheckIcon,
+  DollarSign,
   Layers2,
   LayoutDashboard,
 } from "lucide-react";
@@ -57,20 +57,18 @@ export default async function Course({
     course?.price,
     course?.categoryId,
     course?.chapters[0],
-    course?.attachments[0],
   ];
 
   const totalFields = allFields.length;
   const completedFields = allFields.filter(Boolean).length;
 
-  console.log({ course });
   return (
     <div className="container py-6">
       <div className="space-y-6">
         {/* Course heading */}
         <div>
           <h2 className="text-3xl mb-1">Course setup</h2>
-          <p className="text-muted-foreground text-[1rem]">
+          <p className="text-muted-foreground ">
             Complete all fields {`${completedFields}/ ${totalFields}`}
           </p>
         </div>
@@ -115,9 +113,7 @@ export default async function Course({
               </div>
 
               <div>
-                <HeadingBadge icon={BadgeDollarSign}>
-                  Sell your course
-                </HeadingBadge>
+                <HeadingBadge icon={DollarSign}>Sell your course</HeadingBadge>
                 <div className="course-card">
                   <CoursePrice course={course} />
                 </div>

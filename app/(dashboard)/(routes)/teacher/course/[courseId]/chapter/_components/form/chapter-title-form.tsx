@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Attachment, Chapter, Course } from "@prisma/client";
+import { Chapter } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -28,13 +28,13 @@ const formSchema = z.object({
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
-type CourseChapterForm = {
-  course: Course & { chapters: Chapter[]; attachments: Attachment[] };
+type ChapterTitleForm = {
+  chapter: Chapter;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
 // Create form
-export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
+export function ChapterTitleForm({ chapter, setIsEditing }: ChapterTitleForm) {
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
@@ -42,7 +42,7 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      title: chapter.title || "",
     },
   });
 
@@ -53,11 +53,11 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
     try {
       setIsUpdating(false);
       // api
-      const updatedCourse = await axios.post(
-        `/api/teacher/course/${course.id}/chapter`,
+      const updatedChapter = await axios.patch(
+        `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`,
         values
       );
-      toast.success("Course chapter added...");
+      toast.success("Chapter title updated...");
 
       // refresh and redirect
       router.refresh();
@@ -84,13 +84,9 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  placeholder="Chapter name..."
-                  {...field}
-                  disabled={isSubmitting}
-                />
+                <Input {...field} disabled={isSubmitting} />
               </FormControl>
-              <FormDescription>Add your chapter title.</FormDescription>
+              <FormDescription>Change your chapter title.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

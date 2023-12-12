@@ -15,7 +15,7 @@ export default function CourseDescription({ course }: CourseDescriptionProps) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
-        <h4 className="text-[1rem]">Course description</h4>
+        <h4 className="">Course description</h4>
         <button
           className="flex items-center gap-2"
           onClick={() => setIsEditing(!isEditing)}
@@ -33,13 +33,11 @@ export default function CourseDescription({ course }: CourseDescriptionProps) {
 
       <div>
         {course.description && !isEditing && (
-          <p className="text-muted-foreground leading-6">
-            {course.description}
-          </p>
+          <p className="text-muted-foreground">{course.description}</p>
         )}
 
         {!course.description && !isEditing && (
-          <p className="text-muted-foreground">No Description</p>
+          <p className="text-muted-foreground italic">No Description</p>
         )}
 
         {isEditing && (

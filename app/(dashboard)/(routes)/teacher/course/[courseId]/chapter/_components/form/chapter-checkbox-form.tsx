@@ -1,63 +1,59 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
+  FormLabel,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Attachment, Chapter, Course } from "@prisma/client";
+import { Chapter } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 
-// Form schema
-const formSchema = z.object({
-  title: z.string().min(4, {
-    message: "Course title must be at least 4 characters.",
-  }),
+const FormSchema = z.object({
+  isFree: z.boolean().default(false).optional(),
 });
 
-// Type
-type FormSchema = z.infer<typeof formSchema>;
-
-type CourseChapterForm = {
-  course: Course & { chapters: Chapter[]; attachments: Attachment[] };
+type ChpaterCheckBoxFormProps = {
+  chapter: Chapter;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
-// Create form
-export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
-  const [isUpdating, setIsUpdating] = useState(false);
+export function ChapterCheckBoxform({
+  chapter,
+  setIsEditing,
+}: ChpaterCheckBoxFormProps) {
   const router = useRouter();
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  // React hook form
-  const form = useForm({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
-      title: "",
+      isFree: chapter.isFree,
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
-  // handler
-  async function onSubmit(values: FormSchema) {
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
     try {
-      setIsUpdating(false);
+      setIsUpdating(true);
       // api
-      const updatedCourse = await axios.post(
-        `/api/teacher/course/${course.id}/chapter`,
+      await axios.patch(
+        `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`,
         values
       );
-      toast.success("Course chapter added...");
+      toast.success("Chapter description updated...");
 
       // refresh and redirect
       router.refresh();
@@ -80,18 +76,22 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="title"
+          name="isFree"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
               <FormControl>
-                <Input
-                  placeholder="Chapter name..."
-                  {...field}
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
                   disabled={isSubmitting}
                 />
               </FormControl>
-              <FormDescription>Add your chapter title.</FormDescription>
-              <FormMessage />
+              <div className="space-y-1 leading-none">
+                <FormLabel>Free?</FormLabel>
+                <FormDescription>
+                  Check this box if you want to make this chapter free....
+                </FormDescription>
+              </div>
             </FormItem>
           )}
         />

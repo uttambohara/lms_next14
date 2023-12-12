@@ -27,7 +27,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
       setIsUpdating(true);
       // Api
       const updatedCourse = await axios.patch(
-        `/api/teacher/course/${course.id}/chapters`,
+        `/api/teacher/course/${course.id}/chapter`,
         values
       );
       toast.success("Chapter position updated...");
@@ -55,7 +55,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
       )}
       <div className="space-y-2">
         <div className="flex justify-between">
-          <h4 className="text-[1rem]">Course chapters</h4>
+          <h4 className="">Course chapters</h4>
           <button
             className="flex items-center gap-2"
             onClick={() => setIsEditing(!isEditing)}
@@ -80,7 +80,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
           )}
 
           {course.chapters.length === 0 && !isEditing && (
-            <p className="text-muted-foreground">No Chapters</p>
+            <p className="text-muted-foreground italic">No Chapters</p>
           )}
 
           {isEditing && (

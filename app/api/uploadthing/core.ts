@@ -17,6 +17,9 @@ export const ourFileRouter = {
   attachmentsUploader: f(["image", "video", "pdf", "audio"])
     .middleware(authCheck)
     .onUploadComplete(() => {}),
+  videoUploader: f(["video"])
+    .middleware(authCheck)
+    .onUploadComplete(() => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
