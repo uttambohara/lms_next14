@@ -4,11 +4,10 @@
 
 body {
   @apply text-sm text-gray-600;
-  /* font-family: "Arial" !important; */
 }
 
 h4 {
-  @apply font-bold;
+  @apply font-bold text-[0.9rem] tracking-wide;
 }
 
 .course-card {

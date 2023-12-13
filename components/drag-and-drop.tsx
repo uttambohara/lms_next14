@@ -68,7 +68,7 @@ export default function PangeaDrop({
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                     className={cn(
-                      "bg-slate-200 p-2 rounded-md flex items-center gap-2 justify-between text-slate-500 text-[0.8rem]",
+                      "bg-slate-200 p-2 rounded-md flex items-center gap-2 justify-between text-slate-500",
                       snapshot.isDragging && "bg-purple-50 border",
                       chapter.isPublished && "bg-sky-200"
                     )}
