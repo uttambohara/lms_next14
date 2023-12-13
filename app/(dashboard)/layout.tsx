@@ -13,9 +13,7 @@ export default function DashboardLayout({
 
       <Header />
 
-      <main className="overflow-y-scroll ">
-        <div>{children}</div>
-      </main>
+      <main className="overflow-y-scroll ">{children}</main>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export const guestRoute = [
 
 export const teacherRoute = [
   {
-    path: "/teacher/create",
+    path: "/teacher/course",
     element: "Courses",
     icon: BookA,
   },
