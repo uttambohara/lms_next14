@@ -66,7 +66,7 @@ export default function CourseButtons({
       // refresh and redirect
       router.refresh();
 
-      router.push(`/teacher/create`);
+      router.push(`/teacher/course`);
     } catch (err) {
       let error;
       if (err instanceof Error) {

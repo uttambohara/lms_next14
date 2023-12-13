@@ -16,7 +16,7 @@ export default function HeaderButtons() {
           <Button variant="ghost">Guest mode</Button>
         </Link>
       ) : (
-        <Link href="/teacher/create">
+        <Link href="/teacher/course">
           <Button>Teacher Mode</Button>
         </Link>
       )}
