@@ -33,3 +33,28 @@ export async function PATCH(
     throw new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { courseId: string } }
+) {
+  try {
+    const { userId } = auth();
+
+    if (!userId || !isTeacher)
+      throw new NextResponse("Unauthorized", { status: 500 });
+
+    //
+
+    const course = await prisma.course.delete({
+      where: {
+        id: params.courseId,
+      },
+    });
+
+    return NextResponse.json({ status: "success", data: course });
+  } catch (err) {
+    console.log("[CHAPTER_DELETE]", err);
+    throw new NextResponse("Internal Error", { status: 500 });
+  }
+}
