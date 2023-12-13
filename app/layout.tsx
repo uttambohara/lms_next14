@@ -1,3 +1,4 @@
+import ConfettiProvider from "@/hooks/confetti-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
@@ -25,6 +26,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={nunitoSans.className}>
+          <ConfettiProvider />
           <Toaster position="bottom-right" />
           {children}
         </body>

@@ -30,8 +30,6 @@ export async function PATCH(
       },
     });
 
-    console.log({ values });
-
     if (!values.videoUrl) {
       const chapter = await prisma.chapter.update({
         where: { id: params.chapterId, courseId: params.courseId },
@@ -81,6 +79,70 @@ export async function PATCH(
     return NextResponse.json({ status: "success" });
   } catch (err) {
     console.log("[CREATE_CHAPTER]", err);
+    throw new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { courseId: string; chapterId: string } }
+) {
+  try {
+    const { userId } = auth();
+
+    if (!userId || !isTeacher)
+      throw new NextResponse("Unauthorized", { status: 401 });
+
+    //
+
+    const chapter = await prisma.chapter.delete({
+      where: {
+        id: params.chapterId,
+        courseId: params.courseId,
+      },
+    });
+
+    // Mux Video
+    const muxVideo = await prisma.muxVideo.findFirst({
+      where: {
+        chapterId: params.chapterId,
+      },
+    });
+
+    if (muxVideo) {
+      await Video.Assets.del(muxVideo.assedId);
+
+      await prisma.muxVideo.delete({
+        where: {
+          assedId: muxVideo.assedId,
+          chapterId: params.chapterId,
+        },
+      });
+    }
+
+    // Changing course isPublished based on chapter
+    const publishedChapters = await prisma.chapter.findMany({
+      where: {
+        id: params.chapterId,
+        courseId: params.courseId,
+        isPublished: true,
+      },
+    });
+
+    if (publishedChapters.length === 0) {
+      await prisma.course.update({
+        where: {
+          id: params.courseId,
+        },
+        data: {
+          isPublished: false,
+        },
+      });
+    }
+
+    return NextResponse.json({ status: "success" });
+  } catch (err) {
+    console.log("[DELETE_CHAPTER]", err);
     throw new NextResponse("Internal Error", { status: 500 });
   }
 }

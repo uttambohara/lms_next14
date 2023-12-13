@@ -69,7 +69,8 @@ export default function PangeaDrop({
                     ref={provided.innerRef}
                     className={cn(
                       "bg-slate-200 p-2 rounded-md flex items-center gap-2 justify-between text-slate-500 text-[0.8rem]",
-                      snapshot.isDragging && "bg-purple-50 border"
+                      snapshot.isDragging && "bg-purple-50 border",
+                      chapter.isPublished && "bg-sky-200"
                     )}
                   >
                     <span className="flex items-center gap-2">
@@ -81,7 +82,7 @@ export default function PangeaDrop({
 
                     <span className="flex items-center gap-2">
                       {chapter.isPublished ? (
-                        <Badge>Published</Badge>
+                        <Badge variant={"success"}>Published</Badge>
                       ) : (
                         <Badge variant={"outline"}>Draft</Badge>
                       )}

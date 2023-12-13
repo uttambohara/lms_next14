@@ -4,7 +4,7 @@
 
 body {
   @apply text-sm text-gray-600;
-  font-family: "Arial" !important;
+  /* font-family: "Arial" !important; */
 }
 
 h4 {
