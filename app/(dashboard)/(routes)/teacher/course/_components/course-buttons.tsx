@@ -2,6 +2,7 @@
 
 import Alert from "@/components/alert";
 import { Button } from "@/components/ui/button";
+import { useConfettiStore } from "@/hooks/confetti-store";
 import { Course } from "@prisma/client";
 import axios from "axios";
 import { Loader2, Trash2 } from "lucide-react";
@@ -12,10 +13,16 @@ import { toast } from "sonner";
 type ButtonsProps = {
   course: Course;
   allCompleted: boolean;
+  checkChapterPublished: boolean;
 };
 
-export default function CourseButtons({ course, allCompleted }: ButtonsProps) {
+export default function CourseButtons({
+  course,
+  allCompleted,
+  checkChapterPublished,
+}: ButtonsProps) {
   const router = useRouter();
+  const store = useConfettiStore();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setisDeleting] = useState(false);
 
@@ -31,6 +38,7 @@ export default function CourseButtons({ course, allCompleted }: ButtonsProps) {
       } else {
         await axios.patch(`/api/teacher/course/${course.id}/publish`);
         toast.success("Course published...");
+        store.onOpen();
       }
 
       // refresh and redirect
@@ -77,7 +85,7 @@ export default function CourseButtons({ course, allCompleted }: ButtonsProps) {
       <Button
         variant={"outline"}
         size="sm"
-        disabled={!allCompleted || isUpdating}
+        disabled={!allCompleted || isUpdating || checkChapterPublished}
         onClick={handlePublish}
       >
         {course.isPublished ? "Unpublish" : "Publish"}

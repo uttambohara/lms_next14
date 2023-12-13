@@ -67,14 +67,14 @@ export default async function Course({
   const allCompleted = allFields.every(Boolean);
 
   // Check if any chapter is published
-  const checkPublished = await prisma.chapter.findMany({
+  const checkChapterPublished = await prisma.chapter.findMany({
     where: {
       courseId: params.courseId,
       isPublished: true,
     },
   });
 
-  if (checkPublished.length === 0) {
+  if (checkChapterPublished.length === 0) {
     await prisma.course.update({
       where: {
         id: params.courseId,
@@ -90,7 +90,7 @@ export default async function Course({
       {!course.isPublished && (
         <Banner
           label={`This course is unpublished. It will not be visible to the students. ${
-            allCompleted && checkPublished.length === 0
+            allCompleted && checkChapterPublished.length === 0
               ? "Make sure at least one of the course is published."
               : ""
           } `}
@@ -110,7 +110,11 @@ export default async function Course({
             </div>
 
             <div className="flex items-center gap-2">
-              <CourseButtons course={course} allCompleted={allCompleted} />
+              <CourseButtons
+                course={course}
+                allCompleted={allCompleted}
+                checkChapterPublished={checkChapterPublished.length === 0}
+              />
             </div>
           </div>
 

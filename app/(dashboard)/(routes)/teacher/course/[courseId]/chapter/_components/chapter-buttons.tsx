@@ -2,6 +2,7 @@
 
 import Alert from "@/components/alert";
 import { Button } from "@/components/ui/button";
+import { useConfettiStore } from "@/hooks/confetti-store";
 import { Chapter } from "@prisma/client";
 import axios from "axios";
 import { Loader2, Trash2 } from "lucide-react";
@@ -19,6 +20,7 @@ export default function ChapterButtons({
   allCompleted,
 }: ButtonsProps) {
   const router = useRouter();
+  const store = useConfettiStore();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setisDeleting] = useState(false);
 
@@ -38,6 +40,8 @@ export default function ChapterButtons({
           `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}/publish`
         );
         toast.success("Chapter published...");
+
+        store.onOpen();
       }
 
       // refresh and redirect
