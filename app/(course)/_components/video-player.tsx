@@ -1,11 +1,12 @@
 "use client";
 
+import { useConfettiStore } from "@/hooks/confetti-store";
 import MuxPlayer from "@mux/mux-player-react";
 import { Chapter, ChapterProgress, MuxVideo } from "@prisma/client";
 import axios from "axios";
 import { Loader2, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type VideoPlayerProps = {
@@ -16,6 +17,7 @@ type VideoPlayerProps = {
   isLocked: Boolean;
   nextChapter: { id: string; title: string } | undefined;
   courseId: string;
+  allCompleted: boolean;
 };
 
 export default function VideoPlayer({
@@ -23,9 +25,15 @@ export default function VideoPlayer({
   isLocked,
   courseId,
   nextChapter,
+  allCompleted,
 }: VideoPlayerProps) {
+  const store = useConfettiStore();
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (allCompleted) store.onOpen();
+  }, [allCompleted]);
 
   if (!chapter.videoUrl) return <div>No video found...</div>;
 

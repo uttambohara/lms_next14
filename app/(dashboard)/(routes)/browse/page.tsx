@@ -1,5 +1,7 @@
 import SearchInput from "@/components/search-input";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 import CategoryCard from "./_components/category-card";
 import CategoryList from "./_components/category-list";
 
@@ -8,6 +10,10 @@ export default async function Search({
 }: {
   searchParams: { title: string; categoryId: string };
 }) {
+  const { userId } = auth();
+
+  if (!userId) redirect("/");
+
   const category = await prisma?.category.findMany({
     orderBy: {
       name: "asc",

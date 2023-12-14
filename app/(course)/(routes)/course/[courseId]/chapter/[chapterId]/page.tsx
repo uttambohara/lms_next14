@@ -2,6 +2,7 @@ import ChapterAttachmentItem from "@/app/(course)/_components/chapter-attachment
 import ChapterDescriptionQuill from "@/app/(course)/_components/chapter-description-quill";
 import CompleteUncompleteButtons from "@/app/(course)/_components/complete-uncomplete-buttons";
 import VideoPlayer from "@/app/(course)/_components/video-player";
+
 import { Banner } from "@/components/banner";
 import { Separator } from "@/components/ui/separator";
 import { prisma } from "@/lib/prisma";
@@ -52,19 +53,24 @@ export default async function Chapter({
     select: {
       id: true,
       title: true,
+      chapterProgress: true,
     },
     orderBy: {
       position: "asc",
     },
   });
 
-  const indexOfNextChpa =
+  const allCompleted = allChapters.every(
+    (item) => item.chapterProgress?.[0].isCompleted === true
+  );
+
+  // Index of Next Chapter = Current Index + 1
+  const indexOfNextChapter =
     allChapters.findIndex((item) => item.id === chapter.id) + 1;
 
-  const nextChapter = allChapters[indexOfNextChpa];
+  const nextChapter = allChapters[indexOfNextChapter];
 
-  console.log(nextChapter);
-
+  // Is the course purchased?
   const purchase = await prisma.purchase.findUnique({
     where: {
       userId_courseId: {
@@ -76,9 +82,7 @@ export default async function Chapter({
 
   const isLocked = !chapter?.isFree && !purchase;
 
-  // Updated user progress
-  // Does the chapter specified in the URL have a ser progress
-
+  // User progress of User on Chapter?
   const hasUserProgress = await prisma.chapterProgress.findFirst({
     where: {
       userId,
@@ -111,6 +115,7 @@ export default async function Chapter({
           chapter={chapter!}
           isLocked={isLocked}
           nextChapter={nextChapter}
+          allCompleted={allCompleted}
         />
 
         <div>
@@ -122,6 +127,7 @@ export default async function Chapter({
               purchase={purchase}
               chapter={chapter}
               nextChapter={nextChapter}
+              allCompleted={allCompleted}
             />
           </div>
 

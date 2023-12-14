@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useConfettiStore } from "@/hooks/confetti-store";
 import { Chapter, ChapterProgress, Purchase } from "@prisma/client";
 import axios from "axios";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type CompleteUncompleteButtons = {
@@ -13,6 +14,7 @@ type CompleteUncompleteButtons = {
   chapter: Chapter & { chapterProgress: ChapterProgress[] };
   nextChapter: { id: string; title: string } | undefined;
   courseId: string;
+  allCompleted: boolean;
 };
 
 export default function CompleteUncompleteButtons({
@@ -20,9 +22,15 @@ export default function CompleteUncompleteButtons({
   purchase,
   chapter,
   nextChapter,
+  allCompleted,
 }: CompleteUncompleteButtons) {
+  const store = useConfettiStore();
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (allCompleted) store.onOpen();
+  }, [allCompleted]);
   //
   async function handleClick(message: string) {
     try {
@@ -55,6 +63,7 @@ export default function CompleteUncompleteButtons({
       setIsUpdating(false);
     }
   }
+
   return (
     <div>
       {!purchase ? (

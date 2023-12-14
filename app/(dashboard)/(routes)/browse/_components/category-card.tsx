@@ -1,13 +1,32 @@
+import getProgress from "@/actions/get-progress";
+import CourseProgress from "@/components/ui/course-progress";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs";
 import { Category, Chapter, Course } from "@prisma/client";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 type CategoryCard = {
   course: Course & { category: Category | null; chapters: Chapter[] };
 };
 
-export default function CategoryCard({ course }: CategoryCard) {
+export default async function CategoryCard({ course }: CategoryCard) {
+  const { userId } = auth();
+
+  if (!userId) redirect("/");
+  const courseProgress = await getProgress({ courseId: course.id, userId });
+
+  const purchase = await prisma.purchase.findUnique({
+    where: {
+      userId_courseId: {
+        userId,
+        courseId: course.id,
+      },
+    },
+  });
+
   return (
     <Link href={`/course/${course.id}`}>
       <div className="p-2 border border-gray-200 rounded-md space-y-3 h-full hover:border hover:border-sky-200 transition">
@@ -35,6 +54,17 @@ export default function CategoryCard({ course }: CategoryCard) {
             {course.chapters.length}{" "}
             {course.chapters.length > 0 ? "chapters" : "chapter"}
           </span>
+        </div>
+
+        <div>
+          {Boolean(purchase) ? (
+            <CourseProgress
+              value={courseProgress!}
+              variant={courseProgress === 100 ? "success" : "default"}
+            />
+          ) : (
+            `$${course.price}`
+          )}
         </div>
       </div>
     </Link>
