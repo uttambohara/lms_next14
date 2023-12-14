@@ -1,5 +1,4 @@
 import Logo from "@/app/(dashboard)/_components/logo";
-import SidebarList from "@/app/(dashboard)/_components/sidebar/sidebar-list";
 import {
   Sheet,
   SheetContent,
@@ -9,7 +8,11 @@ import {
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
-export default function SidebarSheet() {
+export default function SidebarSheet({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <Sheet>
       <SheetTrigger>
@@ -21,7 +24,8 @@ export default function SidebarSheet() {
             <Logo />
           </SheetTitle>
         </SheetHeader>
-        <SidebarList />
+
+        {children}
       </SheetContent>
     </Sheet>
   );

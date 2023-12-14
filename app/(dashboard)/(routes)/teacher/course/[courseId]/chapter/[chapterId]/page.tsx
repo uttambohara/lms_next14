@@ -27,12 +27,7 @@ export default async function Chapter({
 
   if (!chapter) redirect("/");
 
-  const requiredFields = [
-    chapter.title,
-    chapter.description,
-    chapter.isFree,
-    chapter.videoUrl,
-  ];
+  const requiredFields = [chapter.title, chapter.description, chapter.videoUrl];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
