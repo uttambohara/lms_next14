@@ -24,14 +24,26 @@ model Course {
   // 
   attachments Attachment[]
   chapters    Chapter[]
-  category    Category?    @relation(fields: [categoryId], references: [id])
+  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId  String?
+  purchases   Purchase[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([categoryId])
   @@fulltext([title])
+}
+
+model Purchase {
+  id     String @id @default(uuid())
+  userId String
+
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String?
+
+  @@unique([userId, courseId])
+  @@index([courseId])
 }
 
 model Category {
@@ -49,7 +61,7 @@ model Attachment {
   name String
   url  String
 
-  course   Course? @relation(fields: [courseId], references: [id])
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String?
 
   createdAt DateTime @default(now())
@@ -67,13 +79,26 @@ model Chapter {
   videoUrl    MuxVideo?
   isPublished Boolean   @default(false)
 
-  course   Course? @relation(fields: [courseId], references: [id])
-  courseId String?
+  chapterProgress ChapterProgress[]
+  course          Course?           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId        String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([courseId])
+}
+
+model ChapterProgress {
+  id String @id @default(uuid())
+
+  userId      String
+  isCompleted Boolean @default(false)
+
+  chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId String?
+
+  @@index([chapterId])
 }
 
 model MuxVideo {
@@ -84,7 +109,7 @@ model MuxVideo {
   assedId    String
   playbackId String
 
-  chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapter   Chapter? @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   chapterId String?  @unique
 
   createdAt DateTime @default(now())

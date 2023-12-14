@@ -10,7 +10,7 @@ type CategoryCard = {
 export default function CategoryCard({ course }: CategoryCard) {
   return (
     <Link href={`/course/${course.id}`}>
-      <div className="p-2 border border-gray-200 rounded-md space-y-3 h-full">
+      <div className="p-2 border border-gray-200 rounded-md space-y-3 h-full hover:border hover:border-sky-200 transition">
         <div className="relative aspect-video">
           <Image
             src={`${course.imageUrl}`}
@@ -28,7 +28,7 @@ export default function CategoryCard({ course }: CategoryCard) {
 
         <div className="flex items-center gap-2">
           <div className="bg-sky-100 p-2 rounded-full">
-            <BookOpen color="purple" />
+            <BookOpen color="purple" size={18} />
           </div>
 
           <span>

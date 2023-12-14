@@ -3,6 +3,7 @@
 import SearchInput from "@/components/search-input";
 import SidebarSheet from "@/components/sidebar-sheet";
 import { usePathname } from "next/navigation";
+import SidebarList from "../sidebar/sidebar-list";
 import HeaderButtons from "./header-buttons";
 
 export default function Header() {
@@ -13,7 +14,9 @@ export default function Header() {
   return (
     <header className="border-b border-gray-200 flex items-center px-12">
       <div className="lg:hidden">
-        <SidebarSheet />
+        <SidebarSheet>
+          <SidebarList />
+        </SidebarSheet>
       </div>
 
       <div className="hidden lg:block">{isBrowse && <SearchInput />}</div>
