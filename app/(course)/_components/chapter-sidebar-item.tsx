@@ -39,12 +39,31 @@ export default function ChapterItem({
           {isLocked ? (
             <Lock className={cn(isActive && "text-sky-700")} size={22} />
           ) : completed ? (
-            <CheckCircle className={cn(isActive && "text-sky-700")} size={22} />
+            <CheckCircle
+              className={cn(
+                isActive && "text-sky-700",
+                completed && "text-emerald-700"
+              )}
+              size={22}
+            />
           ) : (
-            <PlayCircle className={cn(isActive && "text-sky-700")} size={22} />
+            <PlayCircle
+              className={cn(
+                isActive && "text-sky-700",
+                completed && "text-emerald-700"
+              )}
+              size={22}
+            />
           )}
         </span>
-        <span className={cn(isActive && "text-sky-700")}>{chapter.title}</span>
+        <span
+          className={cn(
+            isActive && "text-sky-700",
+            completed && "text-emerald-700"
+          )}
+        >
+          {chapter.title}
+        </span>
       </li>
     </Link>
   );
