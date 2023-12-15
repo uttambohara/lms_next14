@@ -2,7 +2,7 @@
 
 import { useConfettiStore } from "@/hooks/confetti-store";
 import MuxPlayer from "@mux/mux-player-react";
-import { Chapter, ChapterProgress, MuxVideo } from "@prisma/client";
+import { Chapter, ChapterProgress, MuxVideo, Purchase } from "@prisma/client";
 import axios from "axios";
 import { Loader2, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,6 +18,7 @@ type VideoPlayerProps = {
   nextChapter: { id: string; title: string } | undefined;
   courseId: string;
   allCompleted: boolean;
+  purchase: Purchase | null;
 };
 
 export default function VideoPlayer({
@@ -26,6 +27,7 @@ export default function VideoPlayer({
   courseId,
   nextChapter,
   allCompleted,
+  purchase,
 }: VideoPlayerProps) {
   const store = useConfettiStore();
   const router = useRouter();
@@ -40,6 +42,8 @@ export default function VideoPlayer({
   async function handleVideoEnded() {
     if (!chapter.chapterProgress?.[0]?.isCompleted) {
       try {
+        if (!purchase) return;
+
         await axios.patch(
           `/api/courses/${chapter.courseId}/chapter/${chapter.id}/complete`,
           { id: chapter.chapterProgress?.[0]?.id || null },

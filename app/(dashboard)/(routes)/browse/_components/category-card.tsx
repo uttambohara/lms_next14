@@ -65,7 +65,7 @@ export default async function CategoryCard({ course }: CategoryCardProps) {
               variant={courseProgress === 100 ? "success" : "default"}
             />
           ) : (
-            <div className="text-xl">{`$${course.price}`}</div>
+            <div className="text-[1rem]">{`$${course.price}`}</div>
           )}
         </div>
       </div>
