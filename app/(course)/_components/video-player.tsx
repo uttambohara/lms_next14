@@ -79,7 +79,7 @@ export default function VideoPlayer({
       {!isLocked && (
         <>
           {!isReady && (
-            <div className="absolute inset-0 grid place-content-center bg-slate-500">
+            <div className="absolute inset-0 z-10 grid place-content-center bg-slate-500">
               <Loader2 className="animate-spin" color="white" size={40} />
             </div>
           )}
@@ -90,7 +90,7 @@ export default function VideoPlayer({
             streamType="on-demand"
             playbackId={chapter.videoUrl.playbackId}
             onCanPlay={() => setIsReady(true)}
-            className="h-full"
+            className="-z-1 h-full"
             onEnded={handleVideoEnded}
             accentColor="purple"
           />

@@ -64,8 +64,6 @@ export async function PATCH(
             chapterId: params.chapterId,
           },
         });
-
-        console.log("Working 3/////");
       }
 
       const asset = await Video.Assets.create({
