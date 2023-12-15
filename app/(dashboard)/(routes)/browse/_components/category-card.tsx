@@ -29,7 +29,7 @@ export default async function CategoryCard({ course }: CategoryCardProps) {
 
   return (
     <Link href={`/course/${course.id}`}>
-      <div className="group h-full space-y-3 rounded-md border border-gray-200 p-2 transition hover:border hover:border-sky-200 hover:bg-slate-100">
+      <div className="group h-full space-y-3 rounded-md border border-gray-200 p-2 transition hover:border hover:border-sky-200 hover:bg-slate-50">
         <div className="relative aspect-video">
           <Image
             src={`${course.imageUrl}`}

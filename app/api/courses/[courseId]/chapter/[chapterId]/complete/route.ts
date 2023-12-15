@@ -1,4 +1,3 @@
-import { isTeacher } from "@/lib/is-teacher";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
@@ -10,8 +9,7 @@ export async function PATCH(
   try {
     const { userId } = auth();
 
-    if (!userId || !isTeacher(userId))
-      throw new NextResponse("Unauthorized", { status: 500 });
+    if (!userId) throw new NextResponse("Unauthorized", { status: 500 });
 
     const { id } = await request.json();
 
