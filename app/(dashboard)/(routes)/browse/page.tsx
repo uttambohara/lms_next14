@@ -28,6 +28,9 @@ export default async function Search({
       },
       isPublished: true,
     },
+    orderBy: {
+      title: "asc",
+    },
     include: {
       category: true,
       chapters: {
