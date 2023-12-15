@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { isTeacher } from "@/lib/is-teacher";
-import { UserButton, auth } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 
 export default function HeaderButtons() {
-  const { userId } = auth();
+  const { userId } = useAuth();
 
   if (!userId) redirect("/");
   const pathname = usePathname();
