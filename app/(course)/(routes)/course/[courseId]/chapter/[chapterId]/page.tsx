@@ -111,6 +111,7 @@ export default async function Chapter({
 
       <div className="mx-auto max-w-[55rem] space-y-6 p-4">
         <VideoPlayer
+          purchase={purchase}
           courseId={params.courseId}
           chapter={chapter!}
           isLocked={isLocked}

@@ -85,5 +85,7 @@ export async function POST(
     return NextResponse.json({ url: session.url });
   } catch (err) {
     console.log("COURSE_CHECKOUT", err);
+
+    return new NextResponse(`Internal error ${err}`, { status: 400 });
   }
 }
