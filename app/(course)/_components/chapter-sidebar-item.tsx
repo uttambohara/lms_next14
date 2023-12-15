@@ -6,7 +6,7 @@ import { CheckCircle, Lock, PlayCircle } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-type ChapterItem = {
+type ChapterItemProps = {
   chapter: Chapter & { chapterProgress: ChapterProgress[] };
   courseId: string;
   isPurchased: Purchase | null;
@@ -16,7 +16,7 @@ export default function ChapterItem({
   chapter,
   courseId,
   isPurchased,
-}: ChapterItem) {
+}: ChapterItemProps) {
   const params = useParams();
 
   const isActive = params.chapterId === chapter.id;
@@ -30,9 +30,9 @@ export default function ChapterItem({
     <Link href={`/course/${courseId}/chapter/${chapter.id}`}>
       <li
         className={cn(
-          "flex items-center gap-2 px-4 h-[3rem] rounded-md mb-1.5 text-[0.9rem]",
-          !isActive && "hover:bg-slate-100 transition",
-          isActive && "bg-slate-50"
+          "mb-1.5 flex h-[3rem] items-center gap-2 rounded-md px-4 text-[0.9rem]",
+          !isActive && "transition hover:bg-slate-100",
+          isActive && "bg-slate-50",
         )}
       >
         <span>
@@ -42,7 +42,7 @@ export default function ChapterItem({
             <CheckCircle
               className={cn(
                 isActive && "text-sky-700",
-                completed && "text-emerald-700"
+                completed && "text-emerald-700",
               )}
               size={22}
             />
@@ -50,7 +50,7 @@ export default function ChapterItem({
             <PlayCircle
               className={cn(
                 isActive && "text-sky-700",
-                completed && "text-emerald-700"
+                completed && "text-emerald-700",
               )}
               size={22}
             />
@@ -59,7 +59,7 @@ export default function ChapterItem({
         <span
           className={cn(
             isActive && "text-sky-700",
-            completed && "text-emerald-700"
+            completed && "text-emerald-700",
           )}
         >
           {chapter.title}

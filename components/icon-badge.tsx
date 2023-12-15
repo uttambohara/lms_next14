@@ -39,11 +39,11 @@ const iconVariant = cva("", {
 type BackgroundVariant = VariantProps<typeof backgroundVariant>;
 type IconVariant = VariantProps<typeof iconVariant>;
 
-interface IconBadge extends BackgroundVariant, IconVariant {
+interface IconBadgeProps extends BackgroundVariant, IconVariant {
   icon: LucideIcon;
 }
 
-export function IconBadge({ variant, size, icon: Icon }: IconBadge) {
+export function IconBadge({ variant, size, icon: Icon }: IconBadgeProps) {
   return (
     <div className={cn(backgroundVariant({ variant, size }))}>
       <Icon className={cn(iconVariant({ variant, size }))} />

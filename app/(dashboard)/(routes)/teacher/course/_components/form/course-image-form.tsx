@@ -2,7 +2,7 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import { Attachment, Chapter, Course } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { UploadFileResponse } from "uploadthing/client";
 
@@ -16,7 +16,6 @@ export function CourseImageForm({
   course,
   setIsEditing,
 }: CourseImageFormProps) {
-  const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
   // handler
@@ -24,12 +23,8 @@ export function CourseImageForm({
     const values = { imageUrl: res?.[0].fileUrl };
 
     try {
-      setIsUpdating(false);
       // api
-      const updatedCourse = await axios.patch(
-        `/api/teacher/course/${course.id}`,
-        values
-      );
+      await axios.patch(`/api/teacher/course/${course.id}`, values);
       toast.success("Course image updated...");
 
       // refresh and redirect
@@ -43,8 +38,6 @@ export function CourseImageForm({
         error = "Something went wrong.";
       }
       toast.error(error);
-    } finally {
-      setIsUpdating(false);
     }
   }
 

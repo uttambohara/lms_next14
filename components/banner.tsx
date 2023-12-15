@@ -13,7 +13,7 @@ const bannerBackground = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 type BannerBackground = VariantProps<typeof bannerBackground>;

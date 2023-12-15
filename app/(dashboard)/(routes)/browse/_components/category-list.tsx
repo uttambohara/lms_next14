@@ -13,7 +13,7 @@ import {
 import { PiBowlFoodDuotone } from "react-icons/pi";
 import CategoryItem from "./category-item";
 
-//Icon map
+// Icon map
 const iconMap: Record<Category["name"], IconType> = {
   "Computer Science": FcMultipleDevices,
   Accounting: FcCalculator,
@@ -30,7 +30,7 @@ type CategoryListProps = {
 
 export default function CategoryList({ category }: CategoryListProps) {
   return (
-    <div className="flex items-center lg:gap-4 flex-wrap gap-2 text-xs md:text-sm">
+    <div className="flex flex-wrap items-center gap-2 text-xs md:text-sm lg:gap-4">
       {category.map((item) => (
         <CategoryItem
           key={item.id}

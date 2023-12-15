@@ -3,7 +3,6 @@
 import { QuillReader } from "@/components/ui/react-quill-read";
 import { Chapter } from "@prisma/client";
 import { Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChapterDescriptionForm } from "../form/chapter-description-form";
 
@@ -14,7 +13,6 @@ type ChapterDescriptionProps = {
 export default function ChapterDescription({
   chapter,
 }: ChapterDescriptionProps) {
-  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
 
   return (

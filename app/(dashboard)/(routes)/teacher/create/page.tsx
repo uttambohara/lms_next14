@@ -2,9 +2,9 @@ import { CourseCreateForm } from "./_components/course-create-form";
 
 export default function CreateCourse() {
   return (
-    <div className="max-w-[40rem] mx-auto space-y-3 container py-16">
+    <div className="container mx-auto max-w-[40rem] space-y-3 py-16">
       <div>
-        <h1 className="text-3xl mb-1">Name your course</h1>
+        <h1 className="mb-1 text-3xl">Name your course</h1>
         <p className=" leading-8">
           Course Title Submission Hub: Enter Your Course Information Here
         </p>

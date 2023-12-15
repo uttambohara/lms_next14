@@ -13,7 +13,7 @@ export default function useDebounce({ input, delay }: DebounceProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedValue(input);
-    }, delay || 1500);
+    }, delay || 800);
 
     return () => clearTimeout(timer);
   }, [input]);

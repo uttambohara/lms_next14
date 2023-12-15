@@ -12,7 +12,7 @@ export default function Header() {
   const isBrowse = pathname.includes("/browse");
 
   return (
-    <header className="border-b border-gray-200 flex items-center px-12">
+    <header className="flex items-center border-b border-gray-200 px-12">
       <div className="lg:hidden">
         <SidebarSheet>
           <SidebarList />

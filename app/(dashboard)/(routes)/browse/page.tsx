@@ -30,19 +30,23 @@ export default async function Search({
     },
     include: {
       category: true,
-      chapters: true,
+      chapters: {
+        where: {
+          isPublished: true,
+        },
+      },
     },
   });
 
   return (
-    <div className="container py-2 space-y-6">
+    <div className="container space-y-4 py-2 lg:space-y-8">
       <div className="lg:hidden">
         <SearchInput />
       </div>
 
       <CategoryList category={category} />
 
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:gap-8 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
         {course.map((item) => (
           <CategoryCard key={item.id} course={item} />
         ))}

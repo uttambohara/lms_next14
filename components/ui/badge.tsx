@@ -15,14 +15,17 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        progress: "bg-sky-100 border-transparent text-white hover:bg-sky-100",
+        lightSuccess:
+          "bg-emerald-100 border-transparent text-white hover:bg-emerald-100",
         success:
-          "bg-emerald-800 border-transparent text-white hover:bg-emerald-700/80",
+          "bg-emerald-600 border-transparent text-white hover:bg-emerald-600",
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface BadgeProps

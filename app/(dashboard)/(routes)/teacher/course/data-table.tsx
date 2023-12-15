@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center py-4 justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 py-4">
         <Input
           placeholder="Filter course..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
@@ -87,7 +87,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -106,7 +106,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -103,7 +103,7 @@ export default async function Course({
           {/* Course heading */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl mb-1">Course setup</h2>
+              <h2 className="mb-1 text-3xl">Course setup</h2>
               <p className="text-muted-foreground">
                 Complete all fields {`${completedFields}/ ${totalFields}`}
               </p>
@@ -118,15 +118,13 @@ export default async function Course({
             </div>
           </div>
 
-          {/* Course Box */}
-          <div className="grid grid-cols-1 gap-4 md:gap-8 md:grid-cols-2">
-            {/* Left Group / flex*/}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
             <div>
               <HeadingBadge icon={LayoutDashboard}>
                 Customize your course
               </HeadingBadge>
 
-              <div className="flex gap-6 flex-col">
+              <div className="flex flex-col gap-6">
                 <div className="course-card">
                   <CourseTitle course={course} />
                 </div>
@@ -145,14 +143,13 @@ export default async function Course({
               </div>
             </div>
 
-            {/* Right Group / normal*/}
             <div>
-              <div className="md:space-y-10 space-y-6">
+              <div className="space-y-6 md:space-y-10">
                 <div>
                   <HeadingBadge icon={CheckCheckIcon}>
                     Course chapters
                   </HeadingBadge>
-                  <div className="course-card gradient">
+                  <div className="course-card">
                     <CourseChapters course={course} />
                   </div>
                 </div>

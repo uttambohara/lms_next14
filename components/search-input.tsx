@@ -26,20 +26,20 @@ export default function SearchInput() {
           categoryId: currCategoryId,
         },
       },
-      { skipEmptyString: true, skipNull: true }
+      { skipEmptyString: true, skipNull: true },
     );
 
     router.push(query);
-  }, [debouncedValue, currCategoryId, pathname, queryString]);
+  }, [debouncedValue, currCategoryId, pathname, router]);
 
   return (
     <div className="relative">
-      <Search className="absolute top-3 left-4" size={17} color="gray" />
+      <Search className="absolute left-4 top-3" size={17} color="gray" />
 
       <input
         type="text"
         placeholder="Search for a course..."
-        className="border border-gray-200 px-9 py-2 rounded-full  outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 w-full lg:w-[18rem]"
+        className="w-full rounded-full border border-gray-200 px-9  py-2 outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 lg:w-[18rem]"
         onChange={(e) => setInput(e.target.value)}
       />
     </div>

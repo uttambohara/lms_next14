@@ -6,12 +6,12 @@ import Mux from "@mux/mux-node";
 import { NextRequest, NextResponse } from "next/server";
 const { Video } = new Mux(
   process.env.MUX_TOKEN_ID!,
-  process.env.MUX_TOKEN_SECRET!
+  process.env.MUX_TOKEN_SECRET!,
 );
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: { courseId: string; chapterId: string } },
 ) {
   try {
     const { userId } = auth();
@@ -23,6 +23,7 @@ export async function PATCH(
 
     const values = await request.json();
 
+    // Which chapter to update
     const chapter = await prisma.chapter.findFirst({
       where: {
         id: params.chapterId,
@@ -30,17 +31,19 @@ export async function PATCH(
       },
     });
 
+    if (!chapter)
+      throw new NextResponse("Chapter doesn't exist", { status: 401 });
+
+    // Does the PATCH data contain video url
+
     if (!values.videoUrl) {
-      const chapter = await prisma.chapter.update({
+      await prisma.chapter.update({
         where: { id: params.chapterId, courseId: params.courseId },
         data: {
           ...values,
         },
       });
     }
-
-    if (!chapter)
-      throw new NextResponse("Chapter doesn't exist", { status: 401 });
 
     if (values.videoUrl) {
       // Mux Video
@@ -50,8 +53,10 @@ export async function PATCH(
         },
       });
 
-      if (muxVideo) {
-        await Video.Assets.del(muxVideo.assedId);
+      if (muxVideo !== null && Boolean(muxVideo?.id)) {
+        if (muxVideo.assedId) {
+          await Video.Assets.del(muxVideo.assedId);
+        }
 
         await prisma.muxVideo.delete({
           where: {
@@ -59,6 +64,8 @@ export async function PATCH(
             chapterId: params.chapterId,
           },
         });
+
+        console.log("Working 3/////");
       }
 
       const asset = await Video.Assets.create({
@@ -74,6 +81,8 @@ export async function PATCH(
           playbackId: asset.playback_ids?.[0]?.id as string,
         },
       });
+
+      ///
     }
 
     return NextResponse.json({ status: "success" });
@@ -85,7 +94,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: { courseId: string; chapterId: string } },
 ) {
   try {
     const { userId } = auth();
@@ -95,7 +104,7 @@ export async function DELETE(
 
     //
 
-    const chapter = await prisma.chapter.delete({
+    await prisma.chapter.delete({
       where: {
         id: params.chapterId,
         courseId: params.courseId,

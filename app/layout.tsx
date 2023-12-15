@@ -2,6 +2,7 @@ import ConfettiProvider from "@/hooks/confetti-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Barlow } from "next/font/google";
+import React from "react";
 import { Toaster } from "sonner";
 import "./globals.css";
 

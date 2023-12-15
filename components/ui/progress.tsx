@@ -18,25 +18,25 @@ const progressBackground = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export type ProgressBackground = VariantProps<typeof progressBackground>;
 
-interface Progress
+interface ProgressProps
   extends ProgressBackground,
     React.HTMLAttributes<HTMLDivElement>,
     React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {}
 
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
-  Progress
+  ProgressProps
 >(({ className, value, variant, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
       "relative h-2 w-full overflow-hidden rounded-full bg-secondary",
-      className
+      className,
     )}
     {...props}
   >

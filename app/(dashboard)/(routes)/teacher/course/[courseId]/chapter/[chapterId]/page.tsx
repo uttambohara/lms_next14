@@ -45,7 +45,7 @@ export default async function Chapter({
       )}
 
       <div className="container py-6">
-        <div className="mb-6 underline underline-offset-2 text-muted-foreground">
+        <div className="mb-6 text-muted-foreground underline underline-offset-2">
           <Link href={`/teacher/course/${params.courseId}`}>
             &larr; Back to course setup
           </Link>
@@ -55,7 +55,7 @@ export default async function Chapter({
           {/* Course heading */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl mb-1">Chapter creation</h2>
+              <h2 className="mb-1 text-3xl">Chapter creation</h2>
 
               <p className="text-muted-foreground">
                 Complete all fields {`${completedFields}/ ${totalFields}`}
@@ -67,14 +67,14 @@ export default async function Chapter({
           </div>
 
           {/* Course Box */}
-          <div className="grid grid-cols-1 gap-4 md:gap-8 md:grid-cols-2">
-            {/* Left Group / flex*/}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
+            {/* Left Group / flex */}
             <div className="space-y-8">
               <div>
                 <HeadingBadge icon={LayoutDashboard}>
                   Customize your chapters
                 </HeadingBadge>
-                <div className="flex gap-6 flex-col">
+                <div className="flex flex-col gap-6">
                   <div className="course-card">
                     <ChapterTitle chapter={chapter} />
                   </div>
@@ -85,7 +85,7 @@ export default async function Chapter({
               </div>
               <div>
                 <HeadingBadge icon={EyeIcon}>Chapter access</HeadingBadge>
-                <div className="flex gap-6 flex-col">
+                <div className="flex flex-col gap-6">
                   <div className="course-card">
                     <ChapterPreview chapter={chapter} />
                   </div>
@@ -94,10 +94,10 @@ export default async function Chapter({
             </div>
 
             <div>
-              <div className="md:space-y-10 space-y-6">
+              <div className="space-y-6 md:space-y-10">
                 <div>
                   <HeadingBadge icon={VideoIcon}>Add a video</HeadingBadge>
-                  <div className="course-card gradient">
+                  <div className="course-card">
                     <ChapterVideo chapter={chapter} />
                   </div>
                 </div>

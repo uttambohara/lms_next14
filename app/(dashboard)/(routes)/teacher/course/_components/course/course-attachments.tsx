@@ -63,7 +63,7 @@ export default function CourseAttachments({ course }: CourseAttachmentsProps) {
             {course.attachments.map((attachment) => (
               <li
                 key={attachment.id}
-                className="p-2 rounded-md bg-slate-200 flex justify-between items-center text-xs cursor-pointer"
+                className="flex cursor-pointer items-center justify-between rounded-md bg-slate-200 p-2 text-xs"
                 onClick={() => onDelete(attachment.id)}
               >
                 <span className="flex items-center gap-1">
@@ -82,7 +82,7 @@ export default function CourseAttachments({ course }: CourseAttachmentsProps) {
         )}
 
         {course.attachments.length === 0 && !isEditing && (
-          <p className="text-muted-foreground italic">No attachments</p>
+          <p className="italic text-muted-foreground">No attachments</p>
         )}
 
         {isEditing && (
