@@ -2,18 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import { isTeacher } from "@/lib/is-teacher";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, auth } from "@clerk/nextjs";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 export default function HeaderButtons() {
+  const { userId } = auth();
+
+  if (!userId) redirect("/");
   const pathname = usePathname();
 
   const isTeacherMode = pathname.includes("/teacher");
 
   return (
     <div className="ml-auto flex items-center gap-2">
-      {isTeacher() ? (
+      {isTeacher(userId) ? (
         isTeacherMode ? (
           <Link href="/">
             <Button variant="ghost">Guest mode</Button>

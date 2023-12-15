@@ -1,6 +1,3 @@
-import { useAuth } from "@clerk/nextjs";
-
-export function isTeacher() {
-  const { userId } = useAuth();
+export function isTeacher(userId: string) {
   return process.env.NEXT_PUBLIC_ALLOWED_USER === userId;
 }

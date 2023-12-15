@@ -5,12 +5,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: { courseId: string; chapterId: string } },
 ) {
   try {
     const { userId } = auth();
 
-    if (!userId || !isTeacher)
+    if (!userId || !isTeacher(userId))
       throw new NextResponse("Unauthorized", { status: 500 });
 
     const { id } = await request.json();
