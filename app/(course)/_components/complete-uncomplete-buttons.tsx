@@ -24,6 +24,7 @@ export default function CompleteUncompleteButtons({
   nextChapter,
   allCompleted,
 }: CompleteUncompleteButtonsProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const store = useConfettiStore();
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
@@ -71,13 +72,28 @@ export default function CompleteUncompleteButtons({
   }
 
   async function handleEnroll() {
-    await axios.post(`/api/courses/${courseId}/checkout`);
+    try {
+      setIsLoading(true);
+      const checkout = await axios.post(`/api/courses/${courseId}/checkout`);
+      window.location.assign(checkout.data.url);
+    } catch (err) {
+      let error;
+      if (err instanceof Error) {
+        err = err.message;
+      } else {
+        err = "Something went wrong";
+      }
+
+      toast.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <div>
       {!purchase ? (
-        <Button variant={"success"} onClick={handleEnroll}>
+        <Button variant={"success"} onClick={handleEnroll} disabled={isLoading}>
           Enroll now
         </Button>
       ) : !chapter.chapterProgress?.[0]?.isCompleted ? (

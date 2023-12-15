@@ -6,7 +6,7 @@ const f = createUploadthing();
 
 const authCheck = () => {
   const { userId } = auth();
-  if (!userId || !isTeacher) throw new Error("Unauthorized");
+  if (!userId || !isTeacher(userId)) throw new Error("Unauthorized");
   return { userId };
 };
 

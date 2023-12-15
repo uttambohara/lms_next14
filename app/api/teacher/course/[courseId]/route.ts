@@ -10,7 +10,7 @@ export async function PATCH(
   try {
     const { userId } = auth();
 
-    if (!userId || !isTeacher)
+    if (!userId || !isTeacher(userId))
       throw new NextResponse("Unauthorized", { status: 500 });
 
     //
@@ -49,7 +49,7 @@ export async function DELETE(
   try {
     const { userId } = auth();
 
-    if (!userId || !isTeacher)
+    if (!userId || !isTeacher(userId))
       throw new NextResponse("Unauthorized", { status: 500 });
 
     //

@@ -10,7 +10,7 @@ export async function POST(
   try {
     const { userId } = auth();
 
-    if (!userId || !isTeacher)
+    if (!userId || !isTeacher(userId))
       throw new NextResponse("Unauthorized", { status: 500 });
 
     //
