@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-type CompleteUncompleteButtons = {
+type CompleteUncompleteButtonsProps = {
   purchase: Purchase | null;
   chapter: Chapter & { chapterProgress: ChapterProgress[] };
   nextChapter: { id: string; title: string } | undefined;
@@ -23,7 +23,7 @@ export default function CompleteUncompleteButtons({
   chapter,
   nextChapter,
   allCompleted,
-}: CompleteUncompleteButtons) {
+}: CompleteUncompleteButtonsProps) {
   const store = useConfettiStore();
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function CompleteUncompleteButtons({
         `/api/courses/${chapter.courseId}/chapter/${chapter.id}/${
           message === "complete" ? "complete" : "uncomplete"
         }`,
-        { id: chapter.chapterProgress?.[0].id }
+        { id: chapter.chapterProgress?.[0].id },
       );
 
       toast.success("Updating progress...");
@@ -68,7 +68,7 @@ export default function CompleteUncompleteButtons({
     <div>
       {!purchase ? (
         <Button variant={"success"}>Enroll now</Button>
-      ) : !chapter.chapterProgress?.[0].isCompleted ? (
+      ) : !chapter.chapterProgress?.[0]?.isCompleted ? (
         <Button
           disabled={isUpdating}
           variant={"success"}

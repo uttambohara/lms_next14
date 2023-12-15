@@ -31,13 +31,13 @@ export default function ChapterButtons({
 
       if (chapter.isPublished) {
         await axios.patch(
-          `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}/unpublish`
+          `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}/unpublish`,
         );
 
         toast.success("Chapter unpublished...");
       } else {
         await axios.patch(
-          `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}/publish`
+          `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}/publish`,
         );
         toast.success("Chapter published...");
 
@@ -64,7 +64,7 @@ export default function ChapterButtons({
       setisDeleting(true);
       // api
       await axios.delete(
-        `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`
+        `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`,
       );
       // refresh and redirect
       router.refresh();

@@ -31,7 +31,7 @@ export default function CategoryItem({
           categoryId: currCategoryId !== value ? value : "",
         },
       },
-      { skipEmptyString: true, skipNull: true }
+      { skipEmptyString: true, skipNull: true },
     );
 
     return router.push(query);
@@ -40,8 +40,8 @@ export default function CategoryItem({
   return (
     <button
       className={cn(
-        "flex gap-2 items-center border border-slate-300 rounded-full py-1 px-2 transition cursor-pointer hover:bg-sky-100",
-        isActive && "bg-sky-100"
+        "flex cursor-pointer items-center gap-2 rounded-full border border-slate-300 px-2 py-1 transition hover:bg-sky-100",
+        isActive && "bg-sky-100",
       )}
       onClick={() => handleCategoryClick(value)}
     >

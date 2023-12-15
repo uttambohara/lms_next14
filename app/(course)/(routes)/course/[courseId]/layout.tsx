@@ -34,7 +34,7 @@ export default async function DashboardLayout({
   if (!course) redirect("/");
 
   return (
-    <div className="grid grid-rows-[70px_1fr] lg:grid-cols-[300px_1fr] h-screen">
+    <div className="grid h-screen grid-rows-[70px_1fr] lg:grid-cols-[300px_1fr]">
       <CourseSidebar course={course} />
 
       <CourseHeader course={course} />

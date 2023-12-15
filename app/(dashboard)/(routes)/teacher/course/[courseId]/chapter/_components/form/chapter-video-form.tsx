@@ -2,7 +2,7 @@ import { UploadDropzone } from "@/lib/uploadthing";
 import { Chapter } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { UploadFileResponse } from "uploadthing/client";
 
@@ -13,7 +13,6 @@ type ChapterVideoProps = {
 
 // Create form
 export function ChapterVideoForm({ chapter, setIsEditing }: ChapterVideoProps) {
-  const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
   // handler
@@ -21,11 +20,10 @@ export function ChapterVideoForm({ chapter, setIsEditing }: ChapterVideoProps) {
     const values = { videoUrl: res?.[0].fileUrl };
 
     try {
-      setIsUpdating(false);
       // api
       await axios.patch(
         `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`,
-        values
+        values,
       );
       toast.success("Course video updated...");
 
@@ -40,8 +38,6 @@ export function ChapterVideoForm({ chapter, setIsEditing }: ChapterVideoProps) {
         error = "Something went wrong.";
       }
       toast.error(error);
-    } finally {
-      setIsUpdating(false);
     }
   }
 

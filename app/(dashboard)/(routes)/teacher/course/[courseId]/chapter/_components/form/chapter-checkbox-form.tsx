@@ -17,7 +17,7 @@ import {
 import { Chapter } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 
 const FormSchema = z.object({
@@ -34,7 +34,6 @@ export function ChapterCheckBoxform({
   setIsEditing,
 }: ChpaterCheckBoxFormProps) {
   const router = useRouter();
-  const [isUpdating, setIsUpdating] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -47,11 +46,10 @@ export function ChapterCheckBoxform({
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     try {
-      setIsUpdating(true);
       // api
       await axios.patch(
         `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`,
-        values
+        values,
       );
       toast.success("Chapter description updated...");
 
@@ -66,8 +64,6 @@ export function ChapterCheckBoxform({
         error = "Something went wrong.";
       }
       toast.error(error);
-    } finally {
-      setIsUpdating(false);
     }
   }
 

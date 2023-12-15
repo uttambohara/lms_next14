@@ -40,13 +40,13 @@ export default function CourseCategory({
 
       <div>
         {course.categoryId && !isEditing && (
-          <p className="text-muted-foreground leading-6">
+          <p className="leading-6 text-muted-foreground">
             {category.find((item) => item.id === course.categoryId)?.name}
           </p>
         )}
 
         {!course.categoryId && !isEditing && (
-          <p className="text-muted-foreground italic">No Category</p>
+          <p className="italic text-muted-foreground">No Category</p>
         )}
 
         {isEditing && (

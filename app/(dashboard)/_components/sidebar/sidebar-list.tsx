@@ -1,8 +1,8 @@
 "use client";
 
+import { guestRoute, teacherRoute } from "@/constants/sidebar";
 import { usePathname } from "next/navigation";
 import SidebarListItem from "./sidebar-list-item";
-import { guestRoute, teacherRoute } from "@/constants/sidebar";
 
 export default function SidebarList() {
   const pathname = usePathname();

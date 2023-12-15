@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Attachment, Chapter, Course } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 
 // Form schema
@@ -28,14 +28,16 @@ const formSchema = z.object({
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
-type CourseChapterForm = {
+type CourseChapterFormProps = {
   course: Course & { chapters: Chapter[]; attachments: Attachment[] };
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
 
 // Create form
-export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
-  const [isUpdating, setIsUpdating] = useState(false);
+export function CourseChapterForm({
+  course,
+  setIsEditing,
+}: CourseChapterFormProps) {
   const router = useRouter();
 
   // React hook form
@@ -51,12 +53,8 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
   // handler
   async function onSubmit(values: FormSchema) {
     try {
-      setIsUpdating(false);
       // api
-      const updatedCourse = await axios.post(
-        `/api/teacher/course/${course.id}/chapter`,
-        values
-      );
+      await axios.post(`/api/teacher/course/${course.id}/chapter`, values);
       toast.success("Course chapter added...");
 
       // refresh and redirect
@@ -70,8 +68,6 @@ export function CourseChapterForm({ course, setIsEditing }: CourseChapterForm) {
         error = "Something went wrong.";
       }
       toast.error(error);
-    } finally {
-      setIsUpdating(false);
     }
   }
 

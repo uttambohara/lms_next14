@@ -21,15 +21,12 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
   const [isUpdating, setIsUpdating] = useState(false); // For spinner
 
   async function handleUpdatedChapters(
-    values: { id: string; position: number }[]
+    values: { id: string; position: number }[],
   ) {
     try {
       setIsUpdating(true);
       // Api
-      const updatedCourse = await axios.patch(
-        `/api/teacher/course/${course.id}/chapter`,
-        values
-      );
+      await axios.patch(`/api/teacher/course/${course.id}/chapter`, values);
       toast.success("Chapter position updated...");
 
       // Refresh and redirect
@@ -49,7 +46,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
   return (
     <div className="relative">
       {isUpdating && (
-        <div className="bg-slate-400/40 absolute inset-0 place-content-center grid">
+        <div className="absolute inset-0 grid place-content-center bg-slate-400/40">
           <Loader2 className="animate-spin" />
         </div>
       )}
@@ -80,7 +77,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
           )}
 
           {course.chapters.length === 0 && !isEditing && (
-            <p className="text-muted-foreground italic">No Chapters</p>
+            <p className="italic text-muted-foreground">No Chapters</p>
           )}
 
           {isEditing && (
@@ -88,7 +85,7 @@ export default function CourseChapters({ course }: CourseChaptersProps) {
           )}
         </div>
         {course.chapters.length > 0 && (
-          <p className="text-muted-foreground text-xs">
+          <p className="text-xs text-muted-foreground">
             Drag and drop to reorder chapters
           </p>
         )}

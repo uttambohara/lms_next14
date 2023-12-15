@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } },
 ) {
   try {
     const { userId } = auth();
@@ -17,7 +17,7 @@ export async function PATCH(
 
     const values = await request.json();
 
-    for (let i of values) {
+    for (const i of values) {
       await prisma.chapter.update({
         where: {
           id: i.id,
@@ -38,7 +38,7 @@ export async function PATCH(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string } },
 ) {
   try {
     const { userId } = auth();

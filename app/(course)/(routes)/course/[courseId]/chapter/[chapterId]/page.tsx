@@ -61,7 +61,7 @@ export default async function Chapter({
   });
 
   const allCompleted = allChapters.every(
-    (item) => item.chapterProgress?.[0].isCompleted === true
+    (item) => item.chapterProgress?.[0]?.isCompleted === true,
   );
 
   // Index of Next Chapter = Current Index + 1
@@ -91,7 +91,7 @@ export default async function Chapter({
   });
 
   // If not, create a default user progress
-  if (!Boolean(hasUserProgress)) {
+  if (!hasUserProgress?.id) {
     await prisma.chapterProgress.create({
       data: {
         userId,
@@ -109,7 +109,7 @@ export default async function Chapter({
         />
       )}
 
-      <div className="max-w-[55rem] py-4 space-y-6 mx-auto px-4">
+      <div className="mx-auto max-w-[55rem] space-y-6 p-4">
         <VideoPlayer
           courseId={params.courseId}
           chapter={chapter!}
@@ -120,7 +120,7 @@ export default async function Chapter({
 
         <div>
           <div className="flex items-center justify-between py-3">
-            <h2 className="text-2xl font-bold mb-3">{chapter.title}</h2>
+            <h2 className="mb-3 text-2xl font-bold">{chapter.title}</h2>
 
             <CompleteUncompleteButtons
               courseId={params.courseId}
@@ -134,7 +134,7 @@ export default async function Chapter({
           <Separator />
 
           <div className="py-3">
-            <h3 className="text-xl mb-2">Description</h3>
+            <h3 className="mb-2 text-xl">Description</h3>
             <ChapterDescriptionQuill chapter={chapter} />
           </div>
 
@@ -143,9 +143,9 @@ export default async function Chapter({
               <Separator />
 
               <div className="py-3">
-                <h3 className="text-xl mb-2">Attachments</h3>
+                <h3 className="mb-2 text-xl">Attachments</h3>
 
-                <ul className="flex gap-3 flex-col">
+                <ul className="flex flex-col gap-3">
                   {course?.attachments.length === 0 && (
                     <div>No attachments</div>
                   )}

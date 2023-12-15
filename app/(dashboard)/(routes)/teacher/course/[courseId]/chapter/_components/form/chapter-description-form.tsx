@@ -15,7 +15,7 @@ import {
 import { Chapter } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 
 // Form schema
@@ -26,7 +26,7 @@ const formSchema = z.object({
 // Type
 type FormSchema = z.infer<typeof formSchema>;
 
-type ChapterDescriptionForm = {
+type ChapterDescriptionFormProps = {
   chapter: Chapter;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
 };
@@ -35,8 +35,7 @@ type ChapterDescriptionForm = {
 export function ChapterDescriptionForm({
   chapter,
   setIsEditing,
-}: ChapterDescriptionForm) {
-  const [isUpdating, setIsUpdating] = useState(false);
+}: ChapterDescriptionFormProps) {
   const router = useRouter();
 
   // React hook form
@@ -52,11 +51,10 @@ export function ChapterDescriptionForm({
   // handler
   async function onSubmit(values: FormSchema) {
     try {
-      setIsUpdating(true);
       // api
       await axios.patch(
         `/api/teacher/course/${chapter.courseId}/chapter/${chapter.id}`,
-        values
+        values,
       );
       toast.success("Chapter description updated...");
 
@@ -71,8 +69,6 @@ export function ChapterDescriptionForm({
         error = "Something went wrong.";
       }
       toast.error(error);
-    } finally {
-      setIsUpdating(false);
     }
   }
 

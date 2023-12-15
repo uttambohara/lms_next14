@@ -20,7 +20,6 @@ export default function HeaderButtons() {
           <Button>Teacher Mode</Button>
         </Link>
       )}
-
       <div>
         <UserButton afterSignOutUrl="/" />
       </div>

@@ -33,13 +33,13 @@ export default function CoursePrice({ course }: CoursePriceProps) {
 
       <div>
         {course.price && !isEditing && (
-          <p className="text-muted-foreground leading-6">
+          <p className="leading-6 text-muted-foreground">
             ${course.price !== 0 ? course.price : "No price"}
           </p>
         )}
 
         {!course.price && !isEditing && (
-          <p className="text-muted-foreground italic">No price</p>
+          <p className="italic text-muted-foreground">No price</p>
         )}
 
         {isEditing && (

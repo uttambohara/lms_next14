@@ -20,6 +20,7 @@ export default async function getProgress({
   const chapter = await prisma?.chapter.findMany({
     where: {
       courseId,
+      isPublished: true,
     },
     include: {
       chapterProgress: true,
@@ -28,8 +29,10 @@ export default async function getProgress({
 
   const totalChapters = chapter.length;
   const completedChapters = chapter.filter(
-    (item) => item.chapterProgress?.[0].isCompleted === true
+    (item) => item.chapterProgress?.[0]?.isCompleted === true,
   ).length;
 
-  return (completedChapters / totalChapters) * 100;
+  const completedPercentage = (completedChapters / totalChapters) * 100;
+
+  return Math.trunc(completedPercentage);
 }

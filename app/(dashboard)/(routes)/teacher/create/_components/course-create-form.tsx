@@ -16,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { toast } from "sonner";
 
 // Form schema
@@ -31,7 +30,6 @@ type FormSchema = z.infer<typeof formSchema>;
 
 // Create form
 export function CourseCreateForm() {
-  const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
   // React hook form
   const form = useForm({
@@ -46,7 +44,6 @@ export function CourseCreateForm() {
   // handler
   async function onSubmit(values: FormSchema) {
     try {
-      setIsUpdating(false);
       // api
       const course = await axios.post("/api/teacher/course/create", values);
       toast.success("Course created...");
@@ -62,8 +59,6 @@ export function CourseCreateForm() {
         error = "Something went wrong.";
       }
       toast.error(error);
-    } finally {
-      setIsUpdating(false);
     }
   }
 

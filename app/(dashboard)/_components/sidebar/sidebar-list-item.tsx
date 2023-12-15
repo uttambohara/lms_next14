@@ -22,8 +22,8 @@ export default function SidebarListItem({
     <Link href={path}>
       <li
         className={cn(
-          "flex items-center gap-2 px-5 h-10",
-          isActive && "bg-purple-100"
+          "flex h-10 items-center gap-2 px-5",
+          isActive && "bg-purple-100",
         )}
       >
         <Icon className={cn(isActive && "text-purple-800")} />

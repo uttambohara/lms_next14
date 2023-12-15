@@ -34,7 +34,7 @@ export default function CourseImage({ course }: CourseImageProps) {
 
       <div>
         {course.imageUrl && !isEditing && (
-          <div className="relative aspect-video w-full h-[15rem]">
+          <div className="relative aspect-video h-[15rem] w-full">
             <Image
               src={course.imageUrl}
               priority
@@ -47,13 +47,13 @@ export default function CourseImage({ course }: CourseImageProps) {
 
         {!course.imageUrl && !isEditing && (
           <div
-            className="h-60 w-full aspect-video bg-gray-200 relative cursor-pointer"
+            className="relative aspect-video h-60 w-full cursor-pointer bg-gray-200"
             onClick={() => setIsEditing(true)}
           >
             <ImageDown
               color="gray"
               size={40}
-              className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+              className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]"
             />
           </div>
         )}

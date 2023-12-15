@@ -1,5 +1,5 @@
 import getProgress from "@/actions/get-progress";
-import { default as CourseProgress } from "@/components/ui/course-progress";
+import CourseProgress from "@/components/ui/course-progress";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { Chapter, ChapterProgress, Course } from "@prisma/client";
@@ -30,8 +30,8 @@ export default async function CourseSidebar({ course }: CourseSidebarProps) {
   });
 
   return (
-    <aside className="hidden lg:flex border-r border-gray-100 row-span-full py-4 md:gap-3 md:flex-col">
-      <div className="text-[1rem] font-bold px-6 py-3 leading-2 font-sans">
+    <aside className="row-span-full hidden border-r border-gray-100 py-4 md:flex-col md:gap-3 lg:flex">
+      <div className="px-6 py-3 font-sans text-[1rem] font-bold">
         <h2 className="mb-4">{course.title}</h2>
         {Boolean(purchase) && (
           <CourseProgress
@@ -41,8 +41,8 @@ export default async function CourseSidebar({ course }: CourseSidebarProps) {
         )}
       </div>
 
-      <div className="px-6 underline underline-offset-4 text-muted-foreground">
-        <Link href={`/browse`}>&larr; browse other courses ...</Link>
+      <div className="px-6 text-muted-foreground underline underline-offset-4">
+        <Link href={`/browse`}>&larr; Browse other courses ...</Link>
       </div>
 
       <CourseSidebarList course={course} />

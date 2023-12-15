@@ -8,11 +8,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-type CategoryCard = {
+type CategoryCardProps = {
   course: Course & { category: Category | null; chapters: Chapter[] };
 };
 
-export default async function CategoryCard({ course }: CategoryCard) {
+export default async function CategoryCard({ course }: CategoryCardProps) {
   const { userId } = auth();
 
   if (!userId) redirect("/");
@@ -29,7 +29,7 @@ export default async function CategoryCard({ course }: CategoryCard) {
 
   return (
     <Link href={`/course/${course.id}`}>
-      <div className="p-2 border border-gray-200 rounded-md space-y-3 h-full hover:border hover:border-sky-200 transition">
+      <div className="group h-full space-y-3 rounded-md border border-gray-200 p-2 transition hover:border hover:border-sky-200 hover:bg-slate-100">
         <div className="relative aspect-video">
           <Image
             src={`${course.imageUrl}`}
@@ -41,12 +41,14 @@ export default async function CategoryCard({ course }: CategoryCard) {
         </div>
 
         <div>
-          <h2 className="text-[1rem] truncate">{course.title}</h2>
+          <h2 className="truncate text-[1rem] group-hover:text-sky-700">
+            {course.title}
+          </h2>
           <p className="text-muted-foreground">{course.category?.name}</p>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="bg-sky-100 p-2 rounded-full">
+          <div className="rounded-full bg-sky-100 p-2">
             <BookOpen color="purple" size={18} />
           </div>
 
@@ -57,7 +59,7 @@ export default async function CategoryCard({ course }: CategoryCard) {
         </div>
 
         <div>
-          {Boolean(purchase) ? (
+          {purchase?.id ? (
             <CourseProgress
               value={courseProgress!}
               variant={courseProgress === 100 ? "success" : "default"}

@@ -15,7 +15,7 @@ import {
 import { Attachment, Category, Chapter, Course } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 
 // Form schema
@@ -41,7 +41,6 @@ export function CourseCategoryForm({
   category,
   setIsEditing,
 }: CourseCategoryFormProps) {
-  const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
   // React hook form
@@ -57,12 +56,8 @@ export function CourseCategoryForm({
   // handler
   async function onSubmit(values: FormSchema) {
     try {
-      setIsUpdating(false);
       // api
-      const updatedCourse = await axios.patch(
-        `/api/teacher/course/${course.id}`,
-        values
-      );
+      await axios.patch(`/api/teacher/course/${course.id}`, values);
       toast.success("Course category updated...");
 
       // refresh and redirect
@@ -76,8 +71,6 @@ export function CourseCategoryForm({
         error = "Something went wrong.";
       }
       toast.error(error);
-    } finally {
-      setIsUpdating(false);
     }
   }
 

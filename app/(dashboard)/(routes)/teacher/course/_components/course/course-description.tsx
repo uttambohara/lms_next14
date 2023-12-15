@@ -37,7 +37,7 @@ export default function CourseDescription({ course }: CourseDescriptionProps) {
         )}
 
         {!course.description && !isEditing && (
-          <p className="text-muted-foreground italic">No Description</p>
+          <p className="italic text-muted-foreground">No Description</p>
         )}
 
         {isEditing && (

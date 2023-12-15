@@ -35,7 +35,7 @@ export default function ChapterVideo({ chapter }: ChapterVideoProps) {
       <div>
         {!isEditing && !chapter.videoUrl && (
           <div
-            className="h-60 bg-slate-200 grid place-content-center"
+            className="grid h-60 place-content-center bg-slate-200"
             onClick={() => setIsEditing(true)}
           >
             <VideoIcon size={40} />

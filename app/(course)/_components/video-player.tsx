@@ -38,16 +38,16 @@ export default function VideoPlayer({
   if (!chapter.videoUrl) return <div>No video found...</div>;
 
   async function handleVideoEnded() {
-    if (!chapter.chapterProgress?.[0].isCompleted) {
+    if (!chapter.chapterProgress?.[0]?.isCompleted) {
       try {
         await axios.patch(
           `/api/courses/${chapter.courseId}/chapter/${chapter.id}/complete`,
-          { id: chapter.chapterProgress?.[0].id }
+          { id: chapter.chapterProgress?.[0].id },
         );
 
         toast.success("Updating progress...");
 
-        if (Boolean(nextChapter?.id)) {
+        if (nextChapter?.id) {
           router.push(`/course/${courseId}/chapter/${nextChapter?.id}`);
         }
 
@@ -67,10 +67,10 @@ export default function VideoPlayer({
   }
 
   return (
-    <div className="max-h-[33rem] aspect-video m-auto relative">
+    <div className="relative m-auto aspect-video max-h-[33rem]">
       {isLocked && (
-        <div className="max-h-[33rem] aspect-video mx-auto relative">
-          <div className="absolute inset-0 bg-slate-500 grid place-content-center">
+        <div className="relative mx-auto aspect-video max-h-[33rem]">
+          <div className="absolute inset-0 grid place-content-center bg-slate-500">
             <Lock color="white" size={40} />
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function VideoPlayer({
       {!isLocked && (
         <>
           {!isReady && (
-            <div className="absolute inset-0 bg-slate-500 grid place-content-center">
+            <div className="absolute inset-0 grid place-content-center bg-slate-500">
               <Loader2 className="animate-spin" color="white" size={40} />
             </div>
           )}
