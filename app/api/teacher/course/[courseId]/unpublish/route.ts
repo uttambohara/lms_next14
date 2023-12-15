@@ -9,7 +9,7 @@ export async function PATCH(
     params,
   }: {
     params: { courseId: string };
-  }
+  },
 ) {
   try {
     const { userId } = auth();
@@ -18,6 +18,14 @@ export async function PATCH(
       throw new NextResponse("Unauthorized", { status: 500 });
 
     //
+    const courseOwn = await prisma.course.findUnique({
+      where: {
+        userId,
+        id: params.courseId,
+      },
+    });
+
+    if (!courseOwn) throw new NextResponse("Unauthorized", { status: 500 });
 
     await prisma.course.update({
       where: {

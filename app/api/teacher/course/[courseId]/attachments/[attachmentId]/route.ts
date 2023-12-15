@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { courseId: string; attachmentId: string } }
+  { params }: { params: { courseId: string; attachmentId: string } },
 ) {
   try {
     const { userId } = auth();
@@ -14,6 +14,14 @@ export async function DELETE(
       throw new NextResponse("Unauthorized", { status: 500 });
 
     //
+    const courseOwn = await prisma.course.findUnique({
+      where: {
+        userId,
+        id: params.courseId,
+      },
+    });
+
+    if (!courseOwn) throw new NextResponse("Unauthorized", { status: 500 });
 
     const attachment = await prisma.attachment.delete({
       where: {

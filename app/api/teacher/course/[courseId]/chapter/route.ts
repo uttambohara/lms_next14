@@ -14,6 +14,14 @@ export async function PATCH(
       throw new NextResponse("Unauthorized", { status: 500 });
 
     //
+    const courseOwn = await prisma.course.findUnique({
+      where: {
+        userId,
+        id: params.courseId,
+      },
+    });
+
+    if (!courseOwn) throw new NextResponse("Unauthorized", { status: 500 });
 
     const values = await request.json();
 

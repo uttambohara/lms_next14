@@ -35,11 +35,17 @@ export default function CompleteUncompleteButtons({
   async function handleClick(message: string) {
     try {
       setIsUpdating(true);
+      console.log(
+        chapter.id,
+        chapter.courseId,
+        chapter.chapterProgress?.[0].id,
+      );
+
       await axios.patch(
         `/api/courses/${chapter.courseId}/chapter/${chapter.id}/${
           message === "complete" ? "complete" : "uncomplete"
         }`,
-        { id: chapter.chapterProgress?.[0].id },
+        { id: chapter.chapterProgress?.[0]?.id || null },
       );
 
       toast.success("Updating progress...");
@@ -64,10 +70,16 @@ export default function CompleteUncompleteButtons({
     }
   }
 
+  async function handleEnroll() {
+    await axios.post(`/api/courses/${courseId}/checkout`);
+  }
+
   return (
     <div>
       {!purchase ? (
-        <Button variant={"success"}>Enroll now</Button>
+        <Button variant={"success"} onClick={handleEnroll}>
+          Enroll now
+        </Button>
       ) : !chapter.chapterProgress?.[0]?.isCompleted ? (
         <Button
           disabled={isUpdating}

@@ -41,7 +41,7 @@ export default async function CategoryCard({ course }: CategoryCardProps) {
         </div>
 
         <div>
-          <h2 className="truncate text-[1rem] group-hover:text-sky-700">
+          <h2 className="truncate font-sans text-[1rem] font-bold group-hover:text-sky-700">
             {course.title}
           </h2>
           <p className="text-muted-foreground">{course.category?.name}</p>
@@ -58,14 +58,14 @@ export default async function CategoryCard({ course }: CategoryCardProps) {
           </span>
         </div>
 
-        <div>
+        <div className="font-sans font-bold group-hover:text-sky-700">
           {purchase?.id ? (
             <CourseProgress
               value={courseProgress!}
               variant={courseProgress === 100 ? "success" : "default"}
             />
           ) : (
-            `$${course.price}`
+            <div className="text-xl">{`$${course.price}`}</div>
           )}
         </div>
       </div>

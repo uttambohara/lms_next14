@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: { courseId: string; chapterId: string } },
 ) {
   try {
     const { userId } = auth();
@@ -15,17 +15,28 @@ export async function PATCH(
 
     const { id } = await request.json();
 
-    //
-    await prisma.chapterProgress.update({
-      where: {
-        id,
-        userId,
-        chapterId: params.chapterId,
-      },
-      data: {
-        isCompleted: true,
-      },
-    });
+    console.log({ id }, "Working.//////");
+
+    if (!id) {
+      await prisma.chapterProgress.create({
+        data: {
+          userId,
+          chapterId: params.chapterId,
+          isCompleted: true,
+        },
+      });
+    } else {
+      await prisma.chapterProgress.update({
+        where: {
+          id,
+          userId,
+          chapterId: params.chapterId,
+        },
+        data: {
+          isCompleted: true,
+        },
+      });
+    }
 
     return NextResponse.json({ status: "success" });
   } catch (err) {

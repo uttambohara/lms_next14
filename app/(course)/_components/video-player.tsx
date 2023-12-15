@@ -42,7 +42,7 @@ export default function VideoPlayer({
       try {
         await axios.patch(
           `/api/courses/${chapter.courseId}/chapter/${chapter.id}/complete`,
-          { id: chapter.chapterProgress?.[0].id },
+          { id: chapter.chapterProgress?.[0]?.id || null },
         );
 
         toast.success("Updating progress...");
