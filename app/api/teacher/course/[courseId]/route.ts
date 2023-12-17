@@ -54,6 +54,25 @@ export async function DELETE(
 
     //
 
+    const purchased = await prisma.purchase.findUnique({
+      where: {
+        userId_courseId: {
+          userId,
+          courseId: params.courseId,
+        },
+      },
+    });
+
+    if (purchased) {
+      await prisma.purchase.delete({
+        where: {
+          id: purchased?.id,
+          userId,
+          courseId: params.courseId,
+        },
+      });
+    }
+
     const course = await prisma.course.delete({
       where: {
         id: params.courseId,

@@ -49,11 +49,18 @@ export default async function Search({
 
       <CategoryList category={category} />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-        {course.map((item) => (
-          <CategoryCard key={item.id} course={item} />
-        ))}
-      </div>
+      {course.length === 0 ? (
+        <div className="grid h-[30rem] place-content-center text-[1rem] text-muted-foreground">
+          No courses has been added by the instructor... Please wait until the
+          instructor adds one.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+          {course.map((item) => (
+            <CategoryCard key={item.id} course={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
