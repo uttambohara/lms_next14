@@ -20,10 +20,10 @@ export default async function getAnalytics() {
 
     const allCourses = allPurchases.map((purchase) => purchase.course);
     const totalSales = allCourses.length;
-    const totalRevenue = allCourses.reduce(
-      (acc, item) => acc + item?.price!,
-      0,
-    );
+    const totalRevenue = allCourses.reduce((acc, item) => {
+      console.log(item?.price);
+      return acc + item?.price!;
+    }, 0);
 
     const courseAndTotal: Record<string, number> = {};
 

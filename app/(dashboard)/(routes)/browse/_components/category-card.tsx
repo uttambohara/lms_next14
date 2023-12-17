@@ -30,21 +30,23 @@ export default async function CategoryCard({ course }: CategoryCardProps) {
   return (
     <Link href={`/course/${course.id}`}>
       <div className="group h-full space-y-3 rounded-md border border-gray-200 p-2 transition hover:border hover:border-sky-200 hover:bg-slate-50">
-        <div className="relative aspect-video">
+        <div className="relative aspect-video overflow-hidden rounded-md">
           <Image
             src={`${course.imageUrl}`}
             alt={course.title}
             fill
             priority
-            className="rounded-md"
+            className="rounded-md transition-all group-hover:scale-110"
           />
         </div>
 
         <div>
-          <h2 className="truncate text-[1rem] font-bold group-hover:text-sky-700">
+          <h2 className="truncate font-sans text-[1rem] font-bold group-hover:text-sky-700">
             {course.title}
           </h2>
-          <p className="text-muted-foreground">{course.category?.name}</p>
+          <p className="text-[0.8rem] text-muted-foreground">
+            {course.category?.name}
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -58,14 +60,14 @@ export default async function CategoryCard({ course }: CategoryCardProps) {
           </span>
         </div>
 
-        <div className="font-bold group-hover:text-sky-700">
+        <div className="font-sans group-hover:text-sky-700">
           {purchase?.id ? (
             <CourseProgress
               value={courseProgress!}
               variant={courseProgress === 100 ? "success" : "default"}
             />
           ) : (
-            <div className="text-[1rem]">{`$${course.price}`}</div>
+            <div className="text-[0.9rem] font-bold">{`$${course.price}`}</div>
           )}
         </div>
       </div>
