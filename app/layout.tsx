@@ -1,13 +1,13 @@
 import ConfettiProvider from "@/hooks/confetti-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Nunito_sans } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import React from "react";
 import { Toaster } from "sonner";
 import "./globals.css";
 
 // Fonts
-const nunitoSans = Nunito_sans({
+const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
   weight: "400",
 });
